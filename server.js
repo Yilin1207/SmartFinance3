@@ -108,7 +108,7 @@ async function ensureTables() {
 
   await pool.query(`
     UPDATE users
-    SET created_at = COALESCE(created_at, date, CURRENT_TIMESTAMP)
+    SET created_at = COALESCE(created_at, CURRENT_TIMESTAMP)
     WHERE created_at IS NULL
   `);
 
@@ -239,7 +239,10 @@ async function ensureTables() {
 
 async function prepareDatabase() {
   if (!tablesReadyPromise) {
-    tablesReadyPromise = ensureTables();
+    tablesReadyPromise = ensureTables().catch((error) => {
+      tablesReadyPromise = null;
+      throw error;
+    });
   }
 
   return tablesReadyPromise;
@@ -291,6 +294,13 @@ function requireApiAuth(req, res, next) {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(attachCurrentUser);
+
+app.get('/api/health', async (req, res) => {
+  return res.status(200).json({
+    success: true,
+    message: 'Database connection is ready'
+  });
+});
 
 app.use('/api', async (req, res, next) => {
   try {
