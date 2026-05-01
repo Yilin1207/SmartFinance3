@@ -3423,7 +3423,7 @@ footer > p {
     color: rgb(118, 167, 246) !important;
 }
 
- Responsive Design for Portfolio & News 
+/* Responsive Design for Portfolio & News */
 @media (max-width: 1024px) {
     .news-card.featured {
         grid-column: span 1;
