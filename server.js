@@ -295,11 +295,36 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(attachCurrentUser);
 
-app.get('/api/health', async (req, res) => {
+app.get('/api/db-config', (req, res) => {
   return res.status(200).json({
     success: true,
-    message: 'Database connection is ready'
+    hasDatabaseUrl: Boolean(pool.hasDatabaseUrl),
+    nodeEnv: process.env.NODE_ENV || null,
+    vercel: Boolean(process.env.VERCEL)
   });
+});
+
+app.get('/api/health', async (req, res) => {
+  try {
+    await prepareDatabase();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Database connection is ready',
+      hasDatabaseUrl: Boolean(pool.hasDatabaseUrl)
+    });
+  } catch (error) {
+    console.error('Health check failed:', error.message);
+
+    return res.status(503).json({
+      success: false,
+      message: 'Database is not configured or unavailable',
+      hasDatabaseUrl: Boolean(pool.hasDatabaseUrl),
+      errorCode: error.code || null,
+      errorName: error.name || null,
+      errorMessage: error.message || null
+    });
+  }
 });
 
 app.use('/api', async (req, res, next) => {

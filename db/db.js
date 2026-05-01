@@ -1,13 +1,27 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
-const hasDatabaseUrl = Boolean(process.env.DATABASE_URL);
+function cleanConnectionString(value) {
+  if (!value) {
+    return '';
+  }
+
+  return String(value)
+    .trim()
+    .replace(/^DATABASE_URL\s*=\s*/i, '')
+    .replace(/^["']|["']$/g, '');
+}
+
+const databaseUrl = cleanConnectionString(
+  process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.DB
+);
+const hasDatabaseUrl = Boolean(databaseUrl);
 const isProduction = process.env.NODE_ENV === 'production';
 
 const pool = new Pool(
   hasDatabaseUrl
     ? {
-        connectionString: process.env.DATABASE_URL,
+        connectionString: databaseUrl,
         ssl: isProduction ? { rejectUnauthorized: false } : undefined
       }
     : {
@@ -30,3 +44,4 @@ console.log(`   Port: ${process.env.DB_PORT || (hasDatabaseUrl ? 'from DATABASE_
 console.log(`   Database: ${process.env.DB_NAME || (hasDatabaseUrl ? 'from DATABASE_URL' : 'test_db')}`);
 
 module.exports = pool;
+module.exports.hasDatabaseUrl = hasDatabaseUrl;
