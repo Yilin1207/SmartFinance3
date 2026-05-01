@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartFinance | Register</title>
+    <link rel="stylesheet" href="/css/main.css?v=5">
+</head>
+<body class="auth-page">
+    <div class="auth-shell">
+        <div class="auth-intro">
+            <span class="auth-badge">SmartFinance Access</span>
+            <h1>Register first, then enter the site</h1>
+            <p>Create an account with your name, email and password. If you already have an account, sign in below and continue to the main website.</p>
+        </div>
+
+        <div class="auth-panels">
+            <section class="auth-card">
+                <h2>Create Account</h2>
+                <p class="auth-subtitle">New users start here.</p>
+                <form id="registerForm" class="auth-form">
+                    <input type="text" name="name" placeholder="Full name" required>
+                    <input type="email" name="email" placeholder="Email address" required>
+                    <input type="password" name="password" placeholder="Password" minlength="6" required>
+                    <input type="password" name="confirmPassword" placeholder="Confirm password" minlength="6" required>
+                    <p id="registerMessage" class="auth-message" aria-live="polite"></p>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+            </section>
+
+            <section class="auth-card auth-card-secondary">
+                <h2>Sign In</h2>
+                <p class="auth-subtitle">Use your existing account.</p>
+                <form id="loginForm" class="auth-form">
+                    <input type="email" name="email" placeholder="Email address" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <p id="loginMessage" class="auth-message" aria-live="polite"></p>
+                    <button type="submit" class="btn btn-primary">Log In</button>
+                </form>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        async function readResponsePayload(response) {
+            const rawText = await response.text();
+
+            if (!rawText) {
+                return null;
+            }
+
+            try {
+                return JSON.parse(rawText);
+            } catch (error) {
+                return { message: rawText };
+            }
+        }
+
+        async function submitAuthForm(form, url, messageNode, successText, buttonText) {
+            const submitButton = form.querySelector('button[type="submit"]');
+            const formData = Object.fromEntries(new FormData(form).entries());
+
+            messageNode.textContent = '';
+            messageNode.className = 'auth-message';
+            submitButton.disabled = true;
+            submitButton.textContent = 'Please wait...';
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await readResponsePayload(response);
+
+                if (!response.ok) {
+                    throw new Error(result?.message || 'Request failed');
+                }
+
+                messageNode.textContent = successText;
+                messageNode.classList.add('is-success');
+                window.location.href = '/';
+            } catch (error) {
+                messageNode.textContent = error.message;
+                messageNode.classList.add('is-error');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = buttonText;
+            }
+        }
+
+        document.getElementById('registerForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            submitAuthForm(
+                event.currentTarget,
+                '/api/register',
+                document.getElementById('registerMessage'),
+                'Registration successful. Redirecting...',
+                'Register'
+            );
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            submitAuthForm(
+                event.currentTarget,
+                '/api/login',
+                document.getElementById('loginMessage'),
+                'Login successful. Redirecting...',
+                'Log In'
+            );
+        });
+    </script>
+</body>
+</html>

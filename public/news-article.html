@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Article - SmartFinance</title>
+    <link rel="stylesheet" href="/css/main.css?v=6">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="container">
+            <span class="SmartFinance">SmartFinance</span>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about.html">About Us</a></li>
+                    <li><a href="/Portfolio.html">Portfolio</a></li>
+                    <li class="active"><a href="/News.html">News</a></li>
+                    <li class="btn"><a href="/Contacts.html">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="container article-page">
+            <a class="article-back" href="/News.html">&larr; Back to News</a>
+
+            <article class="article-shell">
+                <div class="article-meta-row">
+                    <span id="articleCategory" class="news-category stocks">Stocks</span>
+                    <span id="articleDate" class="news-date">Today 08:34</span>
+                    <span id="articleReadTime" class="read-time">5 min read</span>
+                </div>
+
+                <h1 id="articleTitle" class="article-title">Loading article...</h1>
+                <p id="articleLead" class="article-lead"></p>
+
+                <div id="articleHero" class="article-hero"></div>
+
+                <div class="article-body-wrap">
+                    <div class="article-body">
+                        <p id="articleParagraph1"></p>
+                        <p id="articleParagraph2"></p>
+                        <p id="articleParagraph3"></p>
+                        <blockquote id="articleQuote" class="article-quote"></blockquote>
+                        <p id="articleParagraph4"></p>
+                        <p id="articleParagraph5"></p>
+                    </div>
+
+                    <aside class="article-sidebar">
+                        <div class="article-side-card">
+                            <h3>Market Snapshot</h3>
+                            <ul id="articleStats" class="article-stat-list"></ul>
+                        </div>
+                        <div class="article-side-card">
+                            <h3>More Headlines</h3>
+                            <div class="article-more-links">
+                                <a href="/news-article.html?id=bitcoin-67k-breakout">Bitcoin Breaks Through $67K Resistance Level</a>
+                                <a href="/news-article.html?id=eurusd-european-data">EUR Strengthens Against USD on Better European Data</a>
+                                <a href="/news-article.html?id=fed-rate-cut-signal">Fed Signals Potential Rate Cut by Mid-Year</a>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <footer>
+        <div class="blocks container">
+            <div>
+                <span class="logo">logo</span>
+                <p>&copy; 2026 SmartFinance. All rights reserved.</p>
+            </div>
+            <div>
+                <h4>About Us</h4>
+                <ul>
+                    <li>Finance</li>
+                    <li>Portfolio</li>
+                    <li>News</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Contact Us</h4>
+                <p>Have questions or feedback? We'd love to hear from you!</p>
+                <p>Email: info@smartfinance.com</p>
+                <p>Phone: +7 776 222 58 41</p>
+            </div>
+        </div>
+        <hr>
+        <p>&copy; 2026 SmartFinance. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const articleCatalog = {
+            'sp500-record-high': {
+                category: 'stocks',
+                date: 'Today 08:34',
+                readTime: '5 min read',
+                title: 'S&P 500 Reaches New All-Time High',
+                lead: 'Wall Street extended its rally as investors responded to stronger earnings, softer inflation prints, and renewed confidence in risk assets.',
+                hero: 'linear-gradient(135deg, #76a7f6, #4cbd10)',
+                paragraphs: [
+                    'The S&P 500 climbed to a fresh record after a broad-based rally led by technology, communication services, and consumer discretionary names. Traders pointed to upbeat macroeconomic data and resilient corporate earnings as the main drivers behind the move.',
+                    'Large-cap companies once again led the advance, with chipmakers and software firms outperforming as investors continued to favor businesses linked to artificial intelligence and digital infrastructure spending. Market breadth also improved, suggesting the rally was not limited to a narrow group of names.',
+                    'Analysts noted that falling bond yields helped support valuations, especially for growth stocks. A calmer rates backdrop reduced pressure on equity multiples and encouraged institutional flows back into benchmark index products.',
+                    'Even with the positive momentum, strategists warned that volatility could return quickly if incoming inflation data surprises to the upside or if central bank commentary becomes more hawkish than markets expect.',
+                    'For now, sentiment remains constructive. Portfolio managers say that as long as earnings revisions stay positive and economic growth does not weaken sharply, dips in the index are likely to attract buyers.'
+                ],
+                quote: '“The market is treating strong earnings and stable inflation as permission to keep taking risk,” said one New York-based equity strategist.',
+                stats: ['S&P 500: 5,847.42', 'Nasdaq: +1.87%', '10Y Yield: 4.11%', 'VIX: 13.8']
+            },
+            'bitcoin-67k-breakout': {
+                category: 'crypto',
+                date: 'Today 06:42',
+                readTime: '3 min read',
+                title: 'Bitcoin Breaks Through $67K Resistance Level',
+                lead: 'Bitcoin cleared a key technical barrier as demand from institutional buyers and ETF inflows supported bullish momentum across the broader crypto market.',
+                hero: 'linear-gradient(135deg, #f7931a, #ff9500)',
+                paragraphs: [
+                    'Bitcoin pushed above the $67,000 level for the first time this month, triggering momentum buying and renewed interest from short-term traders. The move also lifted sentiment across altcoins, with Ethereum, Solana, and Cardano posting gains during the same session.',
+                    'Market participants pointed to stronger spot ETF flows and improving regulatory clarity in major jurisdictions as reasons for the breakout. Analysts say that a cleaner legal environment continues to improve confidence for institutional allocators.',
+                    'From a technical perspective, breaking resistance around the recent highs opens the door for a retest of previous peaks. Traders are now watching whether volume remains strong enough to support a move toward the next upside zone.',
+                    'Volatility remains elevated, however, and crypto strategists continue to warn that rapid pullbacks are possible if macro conditions deteriorate or risk appetite fades in traditional markets.',
+                    'Even so, sentiment remains positive, with derivatives positioning and on-chain activity both showing signs of improving participation across the ecosystem.'
+                ],
+                quote: '“The breakout matters because it confirms buyers are still willing to chase strength at higher levels,” said a digital asset analyst in London.',
+                stats: ['BTC: $67,234.89', '24h Change: +5.42%', 'ETF Flows: Positive', 'Dominance: 54.1%']
+            },
+            'eurusd-european-data': {
+                category: 'forex',
+                date: 'Today 05:15',
+                readTime: '4 min read',
+                title: 'EUR Strengthens Against USD on Better European Data',
+                lead: 'The euro advanced after stronger-than-expected regional data reduced concerns about near-term weakness in the Eurozone economy.',
+                hero: 'linear-gradient(135deg, #76a7f6, #4cbd10)',
+                paragraphs: [
+                    'EUR/USD rose after a series of economic releases pointed to improving business activity and more resilient consumer demand in the Eurozone. Traders responded by trimming some of their bearish euro positioning.',
+                    'Currency desks said the move was also helped by a modest pullback in the US Dollar, which had strengthened earlier on safe-haven demand. As Treasury yields stabilized, demand for the greenback eased.',
+                    'Strategists say the pair remains sensitive to interest-rate expectations on both sides of the Atlantic. Any sign that the European Central Bank may remain cautious on rate cuts could continue to support the euro in the near term.',
+                    'At the same time, currency markets remain highly reactive to incoming inflation prints and labor market data from the United States. Stronger US data could still cap upside in EUR/USD.',
+                    'For now, the pair is consolidating above recent support, and technical traders are watching whether buyers can keep price action above the 1.08 region.'
+                ],
+                quote: '“The euro got exactly what it needed: better growth signals and a less aggressive dollar backdrop,” said a Frankfurt-based FX strategist.',
+                stats: ['EUR/USD: 1.0856', 'Daily Move: +0.42%', 'US Dollar Index: -0.18%', 'Bund Yield: 2.41%']
+            },
+            'fed-rate-cut-signal': {
+                category: 'global',
+                date: 'Today 04:28',
+                readTime: '6 min read',
+                title: 'Fed Signals Potential Rate Cut by Mid-Year',
+                lead: 'Markets rallied after Federal Reserve officials indicated that policy easing could become appropriate if inflation continues to cool.',
+                hero: 'linear-gradient(135deg, #4cbd10, #76a7f6)',
+                paragraphs: [
+                    'Comments from several Federal Reserve officials boosted investor expectations that borrowing costs may begin to ease later this year. Equity markets welcomed the shift, while Treasury yields edged lower.',
+                    'Although policymakers did not commit to a specific timeline, investors interpreted the tone as a sign that the Fed is increasingly confident inflation is moving in the right direction. That was enough to trigger gains across global risk assets.',
+                    'Economists cautioned that one or two stronger inflation readings could still delay any easing cycle. Nevertheless, the latest messaging suggests the central bank is moving closer to a more balanced policy stance.',
+                    'Global equity benchmarks, emerging market currencies, and commodity-linked assets all moved higher on the news, reflecting improved appetite for risk and lower expectations for policy restraint.',
+                    'Investors will now focus on upcoming inflation, payrolls, and retail sales data for confirmation that the macro environment still supports a mid-year pivot.'
+                ],
+                quote: '“The Fed has not promised cuts, but the market heard enough to reprice the path of rates,” said a macro strategist.',
+                stats: ['Fed Funds: 5.25%-5.50%', 'US 2Y Yield: 4.62%', 'Gold: +0.9%', 'MSCI World: +1.1%']
+            }
+        };
+
+        const fallbackArticle = {
+            category: 'global',
+            date: 'Latest Update',
+            readTime: '4 min read',
+            title: 'SmartFinance Market Briefing',
+            lead: 'A quick look at the latest cross-market developments shaping investor sentiment.',
+            hero: 'linear-gradient(135deg, #76a7f6, #4cbd10)',
+            paragraphs: [
+                'Markets remained active across equities, forex, and digital assets as traders responded to a mix of economic releases and company-specific developments.',
+                'Risk sentiment improved modestly, with benchmark indices stabilizing and safe-haven demand easing during the latest session.',
+                'Currency markets also reflected the shift, with major pairs moving inside tight but tradeable ranges as investors reassessed interest-rate expectations.',
+                'In crypto, price action remained headline-driven, though broader participation across large-cap assets suggested renewed speculative interest.',
+                'Analysts say the next catalyst is likely to come from macro data and central bank guidance.'
+            ],
+            quote: '“Cross-asset traders are watching for the next macro trigger before making larger bets,” said a market commentator.',
+            stats: ['Equities: Mixed', 'Forex: Stable', 'Crypto: Firm', 'Rates: Rangebound']
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        const articleId = params.get('id');
+        const article = articleCatalog[articleId] || fallbackArticle;
+
+        document.title = `${article.title} - SmartFinance`;
+        document.getElementById('articleCategory').textContent = article.category.charAt(0).toUpperCase() + article.category.slice(1);
+        document.getElementById('articleCategory').className = `news-category ${article.category}`;
+        document.getElementById('articleDate').textContent = article.date;
+        document.getElementById('articleReadTime').textContent = article.readTime;
+        document.getElementById('articleTitle').textContent = article.title;
+        document.getElementById('articleLead').textContent = article.lead;
+        document.getElementById('articleHero').style.background = article.hero;
+        document.getElementById('articleParagraph1').textContent = article.paragraphs[0];
+        document.getElementById('articleParagraph2').textContent = article.paragraphs[1];
+        document.getElementById('articleParagraph3').textContent = article.paragraphs[2];
+        document.getElementById('articleQuote').textContent = article.quote;
+        document.getElementById('articleParagraph4').textContent = article.paragraphs[3];
+        document.getElementById('articleParagraph5').textContent = article.paragraphs[4];
+        document.getElementById('articleStats').innerHTML = article.stats.map((item) => `<li>${item}</li>`).join('');
+    </script>
+    <script src="/js/scroll-top.js"></script>
+</body>
+
+</html>

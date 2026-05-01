@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News - SmartFinance</title>
+    <link rel="stylesheet" href="/css/main.css?v=6">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="container">
+            <span class="SmartFinance">SmartFinance</span>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about.html">About Us</a></li>
+                    <li><a href="/Portfolio.html">Portfolio</a></li>
+                    <li class="active"><a href="/News.html">News</a></li>
+                    <li class="btn"><a href="/Contacts.html">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="hero-news container">
+            <div class="news-hero-content">
+                <div class="badge-hero">Market News</div>
+                <h1>Global Financial News</h1>
+                <p>Stay informed with the latest updates, analysis, and insights from financial markets around the world. Breaking news, market trends, and expert commentary all in one place.</p>
+            </div>
+        </div>
+
+        <div class="container news-filters">
+            <div class="filter-group">
+                <button class="filter-btn active" data-filter="all">All News</button>
+                <button class="filter-btn" data-filter="stocks">Stocks</button>
+                <button class="filter-btn" data-filter="crypto">Crypto</button>
+                <button class="filter-btn" data-filter="forex">Forex</button>
+                <button class="filter-btn" data-filter="global">Global</button>
+            </div>
+        </div>
+
+        <div class="container news-grid" id="newsGrid">
+            <a class="news-card featured" data-category="stocks" href="/news-article.html?id=sp500-record-high">
+                <div class="news-image" style="background: linear-gradient(135deg, #76a7f6, #4cbd10);"></div>
+                <div class="news-content">
+                    <div class="news-meta">
+                        <span class="news-category stocks">Stocks</span>
+                        <span class="news-date">Today 08:34</span>
+                    </div>
+                    <h2>S&amp;P 500 Reaches New All-Time High</h2>
+                    <p>The S&amp;P 500 index surged 2.34% today, closing at a record high of 5,847 as investor sentiment improved following positive economic data. Major tech stocks led the rally with gains exceeding 3%.</p>
+                    <div class="news-footer">
+                        <span class="read-time">5 min read</span>
+                        <span class="read-more">Read Full Story &rarr;</span>
+                    </div>
+                </div>
+            </a>
+
+            <a class="news-card" data-category="crypto" href="/news-article.html?id=bitcoin-67k-breakout">
+                <div class="news-image" style="background: linear-gradient(135deg, #f7931a, #ff9500);"></div>
+                <div class="news-content">
+                    <div class="news-meta">
+                        <span class="news-category crypto">Crypto</span>
+                        <span class="news-date">Today 06:42</span>
+                    </div>
+                    <h3>Bitcoin Breaks Through $67K Resistance Level</h3>
+                    <p>Bitcoin surged above $67,000 for the first time this month, driven by increased institutional adoption and positive regulatory developments in major markets.</p>
+                    <span class="read-time">3 min read</span>
+                </div>
+            </a>
+
+            <a class="news-card" data-category="forex" href="/news-article.html?id=eurusd-european-data">
+                <div class="news-image" style="background: linear-gradient(135deg, #76a7f6, #4cbd10);"></div>
+                <div class="news-content">
+                    <div class="news-meta">
+                        <span class="news-category forex">Forex</span>
+                        <span class="news-date">Today 05:15</span>
+                    </div>
+                    <h3>EUR Strengthens Against USD on Better European Data</h3>
+                    <p>The Euro gained 0.42% against the US Dollar following stronger-than-expected Eurozone economic data. The EUR/USD pair now trades at 1.0856 with continued upward momentum expected.</p>
+                    <span class="read-time">4 min read</span>
+                </div>
+            </a>
+
+            <a class="news-card" data-category="global" href="/news-article.html?id=fed-rate-cut-signal">
+                <div class="news-image" style="background: linear-gradient(135deg, #4cbd10, #76a7f6);"></div>
+                <div class="news-content">
+                    <div class="news-meta">
+                        <span class="news-category global">Global</span>
+                        <span class="news-date">Today 04:28</span>
+                    </div>
+                    <h3>Fed Signals Potential Rate Cut by Mid-Year</h3>
+                    <p>Federal Reserve officials hinted at possible interest rate reductions in the coming months as inflation continues to moderate. Market indices surged on the positive guidance.</p>
+                    <span class="read-time">6 min read</span>
+                </div>
+            </a>
+
+            <a class="news-card" data-category="stocks" href="/news-article.html?id=tech-q1-earnings">
+                <div class="news-image" style="background: linear-gradient(135deg, #ff6b6b, #ff9500);"></div>
+                <div class="news-content">
+                    <div class="news-meta">
+                        <span class="news-category stocks">Stocks</span>
+                        <span class="news-date">Yesterday 18:45</span>
+                    </div>
+                    <h3>Tech Giants Report Strong Q1 Earnings</h3>
+                    <p>Major technology companies exceeded earnings expectations in their Q1 reports, with AI initiatives driving growth and revenue beats across the sector.</p>
+                    <span class="read-time">7 min read</span>
+                </div>
+            </a>
+
+            <a class="news-card" data-category="crypto" href="/news-article.html?id=ethereum-network-upgrade">
+                <div class="news-image" style="background: linear-gradient(135deg, #f7931a, #76a7f6);"></div>
+                <div class="news-content">
+                    <div class="news-meta">
+                        <span class="news-category crypto">Crypto</span>
+                        <span class="news-date">Yesterday 16:20</span>
+                    </div>
+                    <h3>Ethereum Upgrade Enhances Network Efficiency</h3>
+                    <p>The latest Ethereum network upgrade successfully improved transaction throughput and reduced gas fees, paving the way for better scalability and adoption.</p>
+                    <span class="read-time">4 min read</span>
+                </div>
+            </a>
+
+            <a class="news-card" data-category="forex" href="/news-article.html?id=opec-oil-currencies">
+                <div class="news-image" style="background: linear-gradient(135deg, #4cbd10, #ff9500);"></div>
+                <div class="news-content">
+                    <div class="news-meta">
+                        <span class="news-category forex">Forex</span>
+                        <span class="news-date">Yesterday 14:30</span>
+                    </div>
+                    <h3>Oil Prices Surge on OPEC+ Production Cut Extension</h3>
+                    <p>Crude oil jumped 3.5% following OPEC+ agreement to extend production cuts through 2024, supporting energy sector stocks and emerging market currencies.</p>
+                    <span class="read-time">5 min read</span>
+                </div>
+            </a>
+
+            <a class="news-card" data-category="global" href="/news-article.html?id=asia-rally-china-recovery">
+                <div class="news-image" style="background: linear-gradient(135deg, #76a7f6, #ff6b6b);"></div>
+                <div class="news-content">
+                    <div class="news-meta">
+                        <span class="news-category global">Global</span>
+                        <span class="news-date">Yesterday 12:15</span>
+                    </div>
+                    <h3>Asian Markets Rally on China Economic Recovery Signs</h3>
+                    <p>Chinese markets led the charge with the Hang Seng and Shanghai Composite both posting strong gains on improved economic data and stimulus measures.</p>
+                    <span class="read-time">4 min read</span>
+                </div>
+            </a>
+
+            <a class="news-card" data-category="stocks" href="/news-article.html?id=nasdaq-tech-record-close">
+                <div class="news-image" style="background: linear-gradient(135deg, #4cbd10, #4cbd10);"></div>
+                <div class="news-content">
+                    <div class="news-meta">
+                        <span class="news-category stocks">Stocks</span>
+                        <span class="news-date">2 days ago</span>
+                    </div>
+                    <h3>NASDAQ Celebrates Record Close with Tech Sector Leading</h3>
+                    <p>The NASDAQ composite index closed at its highest level ever, driven by strong performance from semiconductor and software companies amid AI boom.</p>
+                    <span class="read-time">6 min read</span>
+                </div>
+            </a>
+
+            <a class="news-card" data-category="crypto" href="/news-article.html?id=central-bank-digital-currency">
+                <div class="news-image" style="background: linear-gradient(135deg, #f7931a, #4cbd10);"></div>
+                <div class="news-content">
+                    <div class="news-meta">
+                        <span class="news-category crypto">Crypto</span>
+                        <span class="news-date">2 days ago</span>
+                    </div>
+                    <h3>Central Banks Explore Digital Currency Development</h3>
+                    <p>Multiple central banks announced accelerated timelines for central bank digital currency projects, reshaping the future of global payments.</p>
+                    <span class="read-time">8 min read</span>
+                </div>
+            </a>
+
+            <a class="news-card" data-category="forex" href="/news-article.html?id=gbp-employment-rally">
+                <div class="news-image" style="background: linear-gradient(135deg, #76a7f6, #ff9500);"></div>
+                <div class="news-content">
+                    <div class="news-meta">
+                        <span class="news-category forex">Forex</span>
+                        <span class="news-date">2 days ago</span>
+                    </div>
+                    <h3>GBP Rallies as UK Employment Numbers Exceed Expectations</h3>
+                    <p>The British Pound strengthened significantly after employment data came in much better than forecast, increasing speculation about future interest rate policies.</p>
+                    <span class="read-time">5 min read</span>
+                </div>
+            </a>
+
+            <a class="news-card" data-category="global" href="/news-article.html?id=trade-tensions-tariffs">
+                <div class="news-image" style="background: linear-gradient(135deg, #4cbd10, #ff6b6b);"></div>
+                <div class="news-content">
+                    <div class="news-meta">
+                        <span class="news-category global">Global</span>
+                        <span class="news-date">3 days ago</span>
+                    </div>
+                    <h3>International Trade Tensions Rise Amid New Tariff Proposals</h3>
+                    <p>Global markets showed volatility following new tariff announcements, with sectors like manufacturing and technology particularly affected by trade uncertainty.</p>
+                    <span class="read-time">7 min read</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="news-newsletter">
+            <div class="container">
+                <h2>Stay Updated</h2>
+                <p>Subscribe to our newsletter and receive the latest market news directly in your inbox</p>
+                <form class="newsletter-form" id="newsNewsletterForm">
+                    <input type="email" id="newsNewsletterEmail" placeholder="Enter your email" required>
+                    <button type="submit" class="btn btn-primary" id="newsNewsletterButton">Subscribe</button>
+                    <p id="newsNewsletterMessage" class="newsletter-message" aria-live="polite"></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="blocks container">
+            <div>
+                <span class="logo">logo</span>
+                <p>&copy; 2026 SmartFinance. All rights reserved.</p>
+            </div>
+            <div>
+                <h4>About Us</h4>
+                <ul>
+                    <li>Finance</li>
+                    <li>Portfolio</li>
+                    <li>News</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Contact Us</h4>
+                <p>Have questions or feedback? We'd love to hear from you!</p>
+                <p>Email: info@smartfinance.com</p>
+                <p>Phone: +7 776 222 58 41</p>
+            </div>
+        </div>
+        <hr>
+        <p>&copy; 2026 SmartFinance. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const newsCards = document.querySelectorAll('.news-card');
+        const newsNewsletterForm = document.getElementById('newsNewsletterForm');
+        const newsNewsletterEmail = document.getElementById('newsNewsletterEmail');
+        const newsNewsletterButton = document.getElementById('newsNewsletterButton');
+        const newsNewsletterMessage = document.getElementById('newsNewsletterMessage');
+
+        filterButtons.forEach((button) => {
+            button.addEventListener('click', function () {
+                const filter = this.dataset.filter;
+
+                filterButtons.forEach((item) => item.classList.remove('active'));
+                this.classList.add('active');
+
+                newsCards.forEach((card) => {
+                    const category = card.dataset.category;
+                    const shouldShow = filter === 'all' || category === filter;
+                    card.style.display = shouldShow ? '' : 'none';
+                });
+            });
+        });
+
+        function showNewsNewsletterMessage(text, isSuccess) {
+            newsNewsletterMessage.textContent = text;
+            newsNewsletterMessage.className = isSuccess
+                ? 'newsletter-message is-success'
+                : 'newsletter-message is-error';
+        }
+
+        newsNewsletterForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const email = newsNewsletterEmail.value.trim();
+
+            if (!email) {
+                showNewsNewsletterMessage('Please enter your email.', false);
+                return;
+            }
+
+            newsNewsletterButton.disabled = true;
+            newsNewsletterButton.textContent = 'Saving...';
+            newsNewsletterMessage.textContent = '';
+            newsNewsletterMessage.className = 'newsletter-message';
+
+            try {
+                const response = await fetch('/api/newsletter/subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    showNewsNewsletterMessage(result.message || 'Failed to save email.', false);
+                    return;
+                }
+
+                newsNewsletterForm.reset();
+                showNewsNewsletterMessage(result.message || 'Your email was saved.', true);
+            } catch (error) {
+                showNewsNewsletterMessage('Server connection error. Please try again.', false);
+            } finally {
+                newsNewsletterButton.disabled = false;
+                newsNewsletterButton.textContent = 'Subscribe';
+            }
+        });
+    </script>
+    <script src="/js/scroll-top.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - SmartFinance</title>
+    <link rel="stylesheet" href="/css/main.css?v=5">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="container">
+            <span class="SmartFinance">SmartFinance</span>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about.html">About Us</a></li>
+                    <li class="active"><a href="/Portfolio.html">Portfolio</a></li>
+                    <li><a href="/News.html">News</a></li>
+                    <li class="btn"><a href="/Contacts.html">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="hero-portfolio container">
+            <div class="portfolio-hero-content">
+                <div class="badge-hero">Portfolio</div>
+                <h1>Global Market Insights</h1>
+                <p>Monitor real-time quotations across all major exchanges and asset classes. Track stock indices, cryptocurrencies, and forex markets all in one place.</p>
+            </div>
+        </div>
+
+        <section class="container portfolio-section brokerage-section" id="brokerage-account">
+            <div class="section-header">
+                <h2>My Brokerage Account</h2>
+                <p>Create your own trading account, allocate capital, and build positions across indices, crypto, and forex.</p>
+            </div>
+
+            <div class="brokerage-shell">
+                <div class="brokerage-create-card" id="brokerCreateCard">
+                    <div class="brokerage-card-copy">
+                        <span class="broker-chip">Personal Account</span>
+                        <h3>Open a brokerage account</h3>
+                        <p>Create one or several trading accounts, choose a base currency for each, and switch between them whenever you want.</p>
+                    </div>
+
+                    <form id="brokerAccountForm" class="brokerage-form">
+                        <div class="brokerage-form-grid">
+                            <label>
+                                <span>Account name</span>
+                                <input type="text" id="accountName" name="accountName" placeholder="Alpha Growth Account" required>
+                            </label>
+                            <label>
+                                <span>Base currency</span>
+                                <select id="baseCurrency" name="baseCurrency">
+                                    <option value="USD">USD</option>
+                                    <option value="EUR">EUR</option>
+                                    <option value="GBP">GBP</option>
+                                </select>
+                            </label>
+                            <label>
+                                <span>Initial deposit</span>
+                                <input type="number" id="initialDeposit" name="initialDeposit" min="1" step="0.01" placeholder="10000" required>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create Account</button>
+                    </form>
+                </div>
+
+                <div class="brokerage-dashboard" id="brokerDashboard" hidden>
+                    <div class="brokerage-summary-top">
+                        <div>
+                            <span class="broker-chip">Account Overview</span>
+                            <h3 id="brokerAccountTitle">Brokerage account</h3>
+                            <p id="brokerAccountMeta">Your simulated brokerage account on SmartFinance.</p>
+                        </div>
+                        <div class="brokerage-summary-actions">
+                            <label class="brokerage-switcher">
+                                <span>Open account</span>
+                                <select id="brokerAccountSwitcher"></select>
+                            </label>
+                            <div class="brokerage-status-badge" id="brokerStatusBadge">Active</div>
+                        </div>
+                    </div>
+
+                    <div class="brokerage-summary-grid" id="brokerSummaryGrid">
+                        <article class="brokerage-summary-card">
+                            <span>Cash balance</span>
+                            <strong id="summaryCash">$0.00</strong>
+                        </article>
+                        <article class="brokerage-summary-card">
+                            <span>Market value</span>
+                            <strong id="summaryMarketValue">$0.00</strong>
+                        </article>
+                        <article class="brokerage-summary-card">
+                            <span>Total equity</span>
+                            <strong id="summaryEquity">$0.00</strong>
+                        </article>
+                        <article class="brokerage-summary-card">
+                            <span>Total P&amp;L</span>
+                            <strong id="summaryPnl">$0.00</strong>
+                        </article>
+                    </div>
+
+                    <div class="brokerage-workspace">
+                        <div class="brokerage-add-card">
+                            <div class="brokerage-card-copy">
+                                <h4>Add a position</h4>
+                                <p>Select an asset, choose your size, and add it to your account.</p>
+                            </div>
+
+                            <form id="brokerPositionForm" class="brokerage-form">
+                                <div class="brokerage-form-grid">
+                                    <label>
+                                        <span>Asset</span>
+                                        <select id="assetKey" name="assetKey" required></select>
+                                    </label>
+                                    <label>
+                                        <span>Asset type</span>
+                                        <input type="text" id="assetTypePreview" readonly>
+                                    </label>
+                                    <label>
+                                        <span>Symbol</span>
+                                        <input type="text" id="assetSymbolPreview" readonly>
+                                    </label>
+                                    <label>
+                                        <span>Quantity</span>
+                                        <input type="number" id="positionQuantity" name="quantity" min="0.0001" step="0.0001" placeholder="1" required>
+                                    </label>
+                                    <label>
+                                        <span>Entry price</span>
+                                        <input type="number" id="entryPrice" name="entryPrice" min="0.0001" step="0.0001" required>
+                                    </label>
+                                    <label>
+                                        <span>Current price</span>
+                                        <input type="number" id="currentPrice" name="currentPrice" min="0.0001" step="0.0001" required>
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add To Account</button>
+                            </form>
+                        </div>
+
+                        <div class="brokerage-positions-card">
+                            <div class="brokerage-card-copy">
+                                <h4>Open positions</h4>
+                                <p>Monitor your current holdings and remove positions whenever you want to rebalance.</p>
+                            </div>
+                            <div id="brokerPositionsList" class="brokerage-positions-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <p id="brokerageMessage" class="brokerage-message" aria-live="polite"></p>
+            </div>
+        </section>
+
+        <div class="container portfolio-section" id="stock-indices">
+            <div class="section-header">
+                <h2>Stock Market Indices</h2>
+                <p>Monitor the world's leading stock market indices in real-time</p>
+            </div>
+
+            <div class="indices-grid">
+                <button class="index-card quote-card is-active" type="button" data-asset="sp500" data-viewer-target="indices-viewer">
+                    <div class="index-header">
+                        <h3>S&amp;P 500</h3>
+                        <span class="market-badge usa">USA</span>
+                    </div>
+                    <div class="index-value">
+                        <span class="price">$5,847.42</span>
+                        <span class="change up">+2.34%</span>
+                    </div>
+                    <div class="index-chart">
+                        <div class="mini-chart" style="background: linear-gradient(to right, #76a7f6, #4cbd10); opacity: 0.3; height: 4px; border-radius: 2px;"></div>
+                    </div>
+                    <div class="index-info">
+                        <p>High: $5,892.11</p>
+                        <p>Low: $5,721.03</p>
+                    </div>
+                </button>
+
+                <button class="index-card quote-card" type="button" data-asset="nasdaq" data-viewer-target="indices-viewer">
+                    <div class="index-header">
+                        <h3>NASDAQ</h3>
+                        <span class="market-badge usa">USA</span>
+                    </div>
+                    <div class="index-value">
+                        <span class="price">$18,423.95</span>
+                        <span class="change up">+1.87%</span>
+                    </div>
+                    <div class="index-chart">
+                        <div class="mini-chart" style="background: linear-gradient(to right, #76a7f6, #4cbd10); opacity: 0.3; height: 4px; border-radius: 2px;"></div>
+                    </div>
+                    <div class="index-info">
+                        <p>High: $18,567.23</p>
+                        <p>Low: $18,102.34</p>
+                    </div>
+                </button>
+
+                <button class="index-card quote-card" type="button" data-asset="dax" data-viewer-target="indices-viewer">
+                    <div class="index-header">
+                        <h3>DAX</h3>
+                        <span class="market-badge eu">EU</span>
+                    </div>
+                    <div class="index-value">
+                        <span class="price">&euro;18,534.22</span>
+                        <span class="change up">+1.56%</span>
+                    </div>
+                    <div class="index-chart">
+                        <div class="mini-chart" style="background: linear-gradient(to right, #76a7f6, #4cbd10); opacity: 0.3; height: 4px; border-radius: 2px;"></div>
+                    </div>
+                    <div class="index-info">
+                        <p>High: &euro;18,634.11</p>
+                        <p>Low: &euro;18,289.45</p>
+                    </div>
+                </button>
+
+                <button class="index-card quote-card" type="button" data-asset="ftse100" data-viewer-target="indices-viewer">
+                    <div class="index-header">
+                        <h3>FTSE 100</h3>
+                        <span class="market-badge uk">UK</span>
+                    </div>
+                    <div class="index-value">
+                        <span class="price">&pound;8,234.56</span>
+                        <span class="change down">-0.92%</span>
+                    </div>
+                    <div class="index-chart">
+                        <div class="mini-chart" style="background: linear-gradient(to right, #ff6b6b, #ff6b6b); opacity: 0.3; height: 4px; border-radius: 2px;"></div>
+                    </div>
+                    <div class="index-info">
+                        <p>High: &pound;8,312.34</p>
+                        <p>Low: &pound;8,156.78</p>
+                    </div>
+                </button>
+
+                <button class="index-card quote-card" type="button" data-asset="nikkei225" data-viewer-target="indices-viewer">
+                    <div class="index-header">
+                        <h3>Nikkei 225</h3>
+                        <span class="market-badge jp">JP</span>
+                    </div>
+                    <div class="index-value">
+                        <span class="price">&yen;33,567.89</span>
+                        <span class="change up">+0.45%</span>
+                    </div>
+                    <div class="index-chart">
+                        <div class="mini-chart" style="background: linear-gradient(to right, #76a7f6, #4cbd10); opacity: 0.3; height: 4px; border-radius: 2px;"></div>
+                    </div>
+                    <div class="index-info">
+                        <p>High: &yen;33,734.12</p>
+                        <p>Low: &yen;33,412.56</p>
+                    </div>
+                </button>
+
+                <button class="index-card quote-card" type="button" data-asset="hsi" data-viewer-target="indices-viewer">
+                    <div class="index-header">
+                        <h3>HSI</h3>
+                        <span class="market-badge asia">ASIA</span>
+                    </div>
+                    <div class="index-value">
+                        <span class="price">HK$17,234.25</span>
+                        <span class="change down">-1.23%</span>
+                    </div>
+                    <div class="index-chart">
+                        <div class="mini-chart" style="background: linear-gradient(to right, #ff6b6b, #ff6b6b); opacity: 0.3; height: 4px; border-radius: 2px;"></div>
+                    </div>
+                    <div class="index-info">
+                        <p>High: HK$17,456.78</p>
+                        <p>Low: HK$17,089.34</p>
+                    </div>
+                </button>
+            </div>
+
+            <section class="quote-viewer" id="indices-viewer" aria-live="polite"></section>
+        </div>
+
+        <div class="container portfolio-section" id="crypto-market">
+            <div class="section-header">
+                <h2>Cryptocurrency Market</h2>
+                <p>Real-time prices of leading cryptocurrencies and digital assets</p>
+            </div>
+
+            <div class="crypto-grid">
+                <button class="crypto-card quote-card is-active" type="button" data-asset="bitcoin" data-viewer-target="crypto-viewer">
+                    <div class="crypto-header">
+                        <h3>Bitcoin</h3>
+                        <span class="crypto-symbol">BTC</span>
+                    </div>
+                    <div class="crypto-price">
+                        <span class="price">$67,234.89</span>
+                        <span class="change up">+5.42%</span>
+                    </div>
+                    <div class="crypto-stats">
+                        <div class="stat">
+                            <p>Market Cap</p>
+                            <strong>$1.31T</strong>
+                        </div>
+                        <div class="stat">
+                            <p>24h Volume</p>
+                            <strong>$42.3B</strong>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="crypto-card quote-card" type="button" data-asset="ethereum" data-viewer-target="crypto-viewer">
+                    <div class="crypto-header">
+                        <h3>Ethereum</h3>
+                        <span class="crypto-symbol">ETH</span>
+                    </div>
+                    <div class="crypto-price">
+                        <span class="price">$3,542.67</span>
+                        <span class="change up">+3.89%</span>
+                    </div>
+                    <div class="crypto-stats">
+                        <div class="stat">
+                            <p>Market Cap</p>
+                            <strong>$425.3B</strong>
+                        </div>
+                        <div class="stat">
+                            <p>24h Volume</p>
+                            <strong>$18.9B</strong>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="crypto-card quote-card" type="button" data-asset="ripple" data-viewer-target="crypto-viewer">
+                    <div class="crypto-header">
+                        <h3>Ripple</h3>
+                        <span class="crypto-symbol">XRP</span>
+                    </div>
+                    <div class="crypto-price">
+                        <span class="price">$2.89</span>
+                        <span class="change up">+12.56%</span>
+                    </div>
+                    <div class="crypto-stats">
+                        <div class="stat">
+                            <p>Market Cap</p>
+                            <strong>$156.2B</strong>
+                        </div>
+                        <div class="stat">
+                            <p>24h Volume</p>
+                            <strong>$8.7B</strong>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="crypto-card quote-card" type="button" data-asset="litecoin" data-viewer-target="crypto-viewer">
+                    <div class="crypto-header">
+                        <h3>Litecoin</h3>
+                        <span class="crypto-symbol">LTC</span>
+                    </div>
+                    <div class="crypto-price">
+                        <span class="price">$187.42</span>
+                        <span class="change down">-2.13%</span>
+                    </div>
+                    <div class="crypto-stats">
+                        <div class="stat">
+                            <p>Market Cap</p>
+                            <strong>$15.8B</strong>
+                        </div>
+                        <div class="stat">
+                            <p>24h Volume</p>
+                            <strong>$1.2B</strong>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="crypto-card quote-card" type="button" data-asset="cardano" data-viewer-target="crypto-viewer">
+                    <div class="crypto-header">
+                        <h3>Cardano</h3>
+                        <span class="crypto-symbol">ADA</span>
+                    </div>
+                    <div class="crypto-price">
+                        <span class="price">$0.98</span>
+                        <span class="change up">+8.34%</span>
+                    </div>
+                    <div class="crypto-stats">
+                        <div class="stat">
+                            <p>Market Cap</p>
+                            <strong>$35.2B</strong>
+                        </div>
+                        <div class="stat">
+                            <p>24h Volume</p>
+                            <strong>$2.1B</strong>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="crypto-card quote-card" type="button" data-asset="solana" data-viewer-target="crypto-viewer">
+                    <div class="crypto-header">
+                        <h3>Solana</h3>
+                        <span class="crypto-symbol">SOL</span>
+                    </div>
+                    <div class="crypto-price">
+                        <span class="price">$198.56</span>
+                        <span class="change up">+15.67%</span>
+                    </div>
+                    <div class="crypto-stats">
+                        <div class="stat">
+                            <p>Market Cap</p>
+                            <strong>$92.4B</strong>
+                        </div>
+                        <div class="stat">
+                            <p>24h Volume</p>
+                            <strong>$5.3B</strong>
+                        </div>
+                    </div>
+                </button>
+            </div>
+
+            <section class="quote-viewer" id="crypto-viewer" aria-live="polite"></section>
+        </div>
+
+        <div class="container portfolio-section" id="forex-market">
+            <div class="section-header">
+                <h2>Forex Market</h2>
+                <p>Monitor major currency pairs and exchange rates in real-time</p>
+            </div>
+
+            <div class="forex-grid">
+                <button class="forex-card quote-card is-active" type="button" data-asset="eurusd" data-viewer-target="forex-viewer">
+                    <div class="forex-header">
+                        <h3>EUR/USD</h3>
+                        <p class="pair-name">Euro / US Dollar</p>
+                    </div>
+                    <div class="forex-price">
+                        <span class="rate">1.0856</span>
+                        <span class="change up">+0.42%</span>
+                    </div>
+                    <div class="forex-details">
+                        <div class="detail-row">
+                            <span>High (24h)</span>
+                            <strong>1.0892</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Low (24h)</span>
+                            <strong>1.0734</strong>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="forex-card quote-card" type="button" data-asset="gbpusd" data-viewer-target="forex-viewer">
+                    <div class="forex-header">
+                        <h3>GBP/USD</h3>
+                        <p class="pair-name">British Pound / US Dollar</p>
+                    </div>
+                    <div class="forex-price">
+                        <span class="rate">1.2743</span>
+                        <span class="change up">+1.23%</span>
+                    </div>
+                    <div class="forex-details">
+                        <div class="detail-row">
+                            <span>High (24h)</span>
+                            <strong>1.2834</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Low (24h)</span>
+                            <strong>1.2567</strong>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="forex-card quote-card" type="button" data-asset="usdjpy" data-viewer-target="forex-viewer">
+                    <div class="forex-header">
+                        <h3>USD/JPY</h3>
+                        <p class="pair-name">US Dollar / Japanese Yen</p>
+                    </div>
+                    <div class="forex-price">
+                        <span class="rate">149.23</span>
+                        <span class="change down">-0.56%</span>
+                    </div>
+                    <div class="forex-details">
+                        <div class="detail-row">
+                            <span>High (24h)</span>
+                            <strong>150.12</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Low (24h)</span>
+                            <strong>148.89</strong>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="forex-card quote-card" type="button" data-asset="audusd" data-viewer-target="forex-viewer">
+                    <div class="forex-header">
+                        <h3>AUD/USD</h3>
+                        <p class="pair-name">Australian Dollar / US Dollar</p>
+                    </div>
+                    <div class="forex-price">
+                        <span class="rate">0.6745</span>
+                        <span class="change up">+0.89%</span>
+                    </div>
+                    <div class="forex-details">
+                        <div class="detail-row">
+                            <span>High (24h)</span>
+                            <strong>0.6834</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Low (24h)</span>
+                            <strong>0.6634</strong>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="forex-card quote-card" type="button" data-asset="usdchf" data-viewer-target="forex-viewer">
+                    <div class="forex-header">
+                        <h3>USD/CHF</h3>
+                        <p class="pair-name">US Dollar / Swiss Franc</p>
+                    </div>
+                    <div class="forex-price">
+                        <span class="rate">0.8934</span>
+                        <span class="change down">-0.34%</span>
+                    </div>
+                    <div class="forex-details">
+                        <div class="detail-row">
+                            <span>High (24h)</span>
+                            <strong>0.9012</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Low (24h)</span>
+                            <strong>0.8856</strong>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="forex-card quote-card" type="button" data-asset="usdcad" data-viewer-target="forex-viewer">
+                    <div class="forex-header">
+                        <h3>USD/CAD</h3>
+                        <p class="pair-name">US Dollar / Canadian Dollar</p>
+                    </div>
+                    <div class="forex-price">
+                        <span class="rate">1.3567</span>
+                        <span class="change up">+0.67%</span>
+                    </div>
+                    <div class="forex-details">
+                        <div class="detail-row">
+                            <span>High (24h)</span>
+                            <strong>1.3645</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Low (24h)</span>
+                            <strong>1.3456</strong>
+                        </div>
+                    </div>
+                </button>
+            </div>
+
+            <section class="quote-viewer" id="forex-viewer" aria-live="polite"></section>
+        </div>
+    </div>
+
+    <footer>
+        <div class="blocks container">
+            <div>
+                <span class="logo">logo</span>
+                <p>&copy; 2026 SmartFinance. All rights reserved.</p>
+            </div>
+            <div>
+                <h4>About Us</h4>
+                <ul>
+                    <li>Finance</li>
+                    <li>Portfolio</li>
+                    <li>News</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Contact Us</h4>
+                <p>Have questions or feedback? We'd love to hear from you!</p>
+                <p>Email: info@smartfinance.com</p>
+                <p>Phone: +7 776 222 58 41</p>
+            </div>
+        </div>
+        <hr>
+        <p>&copy; 2026 SmartFinance. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const quoteCatalog = {
+            sp500: { name: 'S&P 500', symbol: 'SPX', section: 'indices', currency: 'USD', price: 5847.42, change: 2.34, high: 5892.11, low: 5721.03, meta1Label: 'Region', meta1Value: 'United States', meta2Label: 'Session range', meta2Value: '171.08 pts' },
+            nasdaq: { name: 'NASDAQ', symbol: 'IXIC', section: 'indices', currency: 'USD', price: 18423.95, change: 1.87, high: 18567.23, low: 18102.34, meta1Label: 'Region', meta1Value: 'United States', meta2Label: 'Session range', meta2Value: '464.89 pts' },
+            dax: { name: 'DAX', symbol: 'DAX', section: 'indices', currency: 'EUR', price: 18534.22, change: 1.56, high: 18634.11, low: 18289.45, meta1Label: 'Region', meta1Value: 'Germany', meta2Label: 'Session range', meta2Value: '344.66 pts' },
+            ftse100: { name: 'FTSE 100', symbol: 'UKX', section: 'indices', currency: 'GBP', price: 8234.56, change: -0.92, high: 8312.34, low: 8156.78, meta1Label: 'Region', meta1Value: 'United Kingdom', meta2Label: 'Session range', meta2Value: '155.56 pts' },
+            nikkei225: { name: 'Nikkei 225', symbol: 'N225', section: 'indices', currency: 'JPY', price: 33567.89, change: 0.45, high: 33734.12, low: 33412.56, meta1Label: 'Region', meta1Value: 'Japan', meta2Label: 'Session range', meta2Value: '321.56 pts' },
+            hsi: { name: 'Hang Seng Index', symbol: 'HSI', section: 'indices', currency: 'HKD', price: 17234.25, change: -1.23, high: 17456.78, low: 17089.34, meta1Label: 'Region', meta1Value: 'Hong Kong', meta2Label: 'Session range', meta2Value: '367.44 pts' },
+            bitcoin: { name: 'Bitcoin', symbol: 'BTC', section: 'crypto', currency: 'USD', price: 67234.89, change: 5.42, high: 68112.35, low: 65408.12, meta1Label: 'Market cap', meta1Value: '$1.31T', meta2Label: '24h volume', meta2Value: '$42.3B' },
+            ethereum: { name: 'Ethereum', symbol: 'ETH', section: 'crypto', currency: 'USD', price: 3542.67, change: 3.89, high: 3612.44, low: 3410.23, meta1Label: 'Market cap', meta1Value: '$425.3B', meta2Label: '24h volume', meta2Value: '$18.9B' },
+            ripple: { name: 'Ripple', symbol: 'XRP', section: 'crypto', currency: 'USD', price: 2.89, change: 12.56, high: 2.98, low: 2.46, meta1Label: 'Market cap', meta1Value: '$156.2B', meta2Label: '24h volume', meta2Value: '$8.7B' },
+            litecoin: { name: 'Litecoin', symbol: 'LTC', section: 'crypto', currency: 'USD', price: 187.42, change: -2.13, high: 194.60, low: 182.11, meta1Label: 'Market cap', meta1Value: '$15.8B', meta2Label: '24h volume', meta2Value: '$1.2B' },
+            cardano: { name: 'Cardano', symbol: 'ADA', section: 'crypto', currency: 'USD', price: 0.98, change: 8.34, high: 1.03, low: 0.92, meta1Label: 'Market cap', meta1Value: '$35.2B', meta2Label: '24h volume', meta2Value: '$2.1B' },
+            solana: { name: 'Solana', symbol: 'SOL', section: 'crypto', currency: 'USD', price: 198.56, change: 15.67, high: 205.82, low: 184.30, meta1Label: 'Market cap', meta1Value: '$92.4B', meta2Label: '24h volume', meta2Value: '$5.3B' },
+            eurusd: { name: 'EUR/USD', symbol: 'EURUSD', section: 'forex', currency: 'FOREX4', price: 1.0856, change: 0.42, high: 1.0892, low: 1.0734, meta1Label: 'Base', meta1Value: 'Euro', meta2Label: 'Quote', meta2Value: 'US Dollar' },
+            gbpusd: { name: 'GBP/USD', symbol: 'GBPUSD', section: 'forex', currency: 'FOREX4', price: 1.2743, change: 1.23, high: 1.2834, low: 1.2567, meta1Label: 'Base', meta1Value: 'British Pound', meta2Label: 'Quote', meta2Value: 'US Dollar' },
+            usdjpy: { name: 'USD/JPY', symbol: 'USDJPY', section: 'forex', currency: 'FOREX2', price: 149.23, change: -0.56, high: 150.12, low: 148.89, meta1Label: 'Base', meta1Value: 'US Dollar', meta2Label: 'Quote', meta2Value: 'Japanese Yen' },
+            audusd: { name: 'AUD/USD', symbol: 'AUDUSD', section: 'forex', currency: 'FOREX4', price: 0.6745, change: 0.89, high: 0.6834, low: 0.6634, meta1Label: 'Base', meta1Value: 'Australian Dollar', meta2Label: 'Quote', meta2Value: 'US Dollar' },
+            usdchf: { name: 'USD/CHF', symbol: 'USDCHF', section: 'forex', currency: 'FOREX4', price: 0.8934, change: -0.34, high: 0.9012, low: 0.8856, meta1Label: 'Base', meta1Value: 'US Dollar', meta2Label: 'Quote', meta2Value: 'Swiss Franc' },
+            usdcad: { name: 'USD/CAD', symbol: 'USDCAD', section: 'forex', currency: 'FOREX4', price: 1.3567, change: 0.67, high: 1.3645, low: 1.3456, meta1Label: 'Base', meta1Value: 'US Dollar', meta2Label: 'Quote', meta2Value: 'Canadian Dollar' }
+        };
+
+        const rangeConfig = {
+            '1D': { points: 24, label: '1 Day' },
+            '1W': { points: 28, label: '1 Week' },
+            '1M': { points: 30, label: '1 Month' },
+            '3M': { points: 36, label: '3 Months' },
+            '1Y': { points: 52, label: '1 Year' }
+        };
+
+        const sectionDefaults = {
+            'indices-viewer': 'sp500',
+            'crypto-viewer': 'bitcoin',
+            'forex-viewer': 'eurusd'
+        };
+
+        const brokerAccountForm = document.getElementById('brokerAccountForm');
+        const brokerPositionForm = document.getElementById('brokerPositionForm');
+        const brokerCreateCard = document.getElementById('brokerCreateCard');
+        const brokerDashboard = document.getElementById('brokerDashboard');
+        const brokerageMessage = document.getElementById('brokerageMessage');
+        const brokerAccountTitle = document.getElementById('brokerAccountTitle');
+        const brokerAccountMeta = document.getElementById('brokerAccountMeta');
+        const brokerStatusBadge = document.getElementById('brokerStatusBadge');
+        const brokerAccountSwitcher = document.getElementById('brokerAccountSwitcher');
+        const brokerPositionsList = document.getElementById('brokerPositionsList');
+        const assetKeyField = document.getElementById('assetKey');
+        const assetTypePreview = document.getElementById('assetTypePreview');
+        const assetSymbolPreview = document.getElementById('assetSymbolPreview');
+        const entryPriceField = document.getElementById('entryPrice');
+        const currentPriceField = document.getElementById('currentPrice');
+        const quantityField = document.getElementById('positionQuantity');
+        const summaryCash = document.getElementById('summaryCash');
+        const summaryMarketValue = document.getElementById('summaryMarketValue');
+        const summaryEquity = document.getElementById('summaryEquity');
+        const summaryPnl = document.getElementById('summaryPnl');
+        const brokerState = { accounts: [], accountData: null };
+
+        function hashString(value) {
+            let hash = 1779033703;
+            for (let index = 0; index < value.length; index += 1) {
+                hash = Math.imul(hash ^ value.charCodeAt(index), 3432918353);
+                hash = (hash << 13) | (hash >>> 19);
+            }
+            return hash >>> 0;
+        }
+
+        function mulberry32(seed) {
+            return function () {
+                let t = seed += 0x6D2B79F5;
+                t = Math.imul(t ^ (t >>> 15), t | 1);
+                t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+                return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+            };
+        }
+
+        function getDecimals(asset) {
+            if (asset.currency === 'FOREX4') return 4;
+            if (asset.currency === 'FOREX2') return 2;
+            if (asset.section === 'crypto' && asset.price < 10) return 2;
+            return 2;
+        }
+
+        function formatPrice(asset, value) {
+            const decimals = getDecimals(asset);
+            const formatted = Number(value).toLocaleString('en-US', {
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals
+            });
+
+            if (asset.currency === 'USD' || asset.currency === 'FOREX4' || asset.currency === 'FOREX2') {
+                return asset.section === 'forex' ? formatted : `$${formatted}`;
+            }
+            if (asset.currency === 'EUR') return `EUR ${formatted}`;
+            if (asset.currency === 'GBP') return `GBP ${formatted}`;
+            if (asset.currency === 'JPY') return `JPY ${formatted}`;
+            if (asset.currency === 'HKD') return `HKD ${formatted}`;
+            return formatted;
+        }
+
+        function formatBrokerMoney(value, currency = 'USD') {
+            const formatted = Number(value || 0).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+            return `${currency} ${formatted}`;
+        }
+
+        function formatPercent(value) {
+            return `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`;
+        }
+
+        function formatVolume(value) {
+            if (value >= 1e9) return `${(value / 1e9).toFixed(1)}B`;
+            if (value >= 1e6) return `${(value / 1e6).toFixed(1)}M`;
+            if (value >= 1e3) return `${(value / 1e3).toFixed(1)}K`;
+            return value.toFixed(0);
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function getVolatility(asset, range) {
+            const sectionFactor = { indices: 0.009, crypto: 0.032, forex: 0.004 };
+            const rangeFactor = { '1D': 0.7, '1W': 1, '1M': 1.25, '3M': 1.75, '1Y': 2.3 };
+            return sectionFactor[asset.section] * rangeFactor[range];
+        }
+
+        function generateSeries(assetKey, range) {
+            const asset = quoteCatalog[assetKey];
+            const points = rangeConfig[range].points;
+            const seed = hashString(`${assetKey}-${range}`);
+            const random = mulberry32(seed);
+            const volatility = getVolatility(asset, range);
+            const trend = asset.change / 100 / points;
+            const records = [];
+            let close = asset.price * (1 - asset.change / 100 * 0.7);
+
+            for (let index = 0; index < points; index += 1) {
+                const open = close;
+                const drift = (random() - 0.5) * volatility * asset.price + trend * asset.price * 5;
+                close = Math.max(asset.price * 0.45, open + drift);
+                const wick = Math.max(asset.price * volatility * 0.8, Math.abs(close - open) * (0.5 + random()));
+                const high = Math.max(open, close) + wick * (0.4 + random());
+                const low = Math.max(asset.price * 0.35, Math.min(open, close) - wick * (0.4 + random()));
+                const volumeBase = asset.section === 'crypto' ? 9000000 : asset.section === 'indices' ? 5000000 : 2500000;
+                const volume = volumeBase * (0.45 + random() * 1.4);
+                records.push({ open, high, low, close, volume, label: `${index + 1}` });
+            }
+
+            const lastClose = records[records.length - 1].close;
+            const scale = asset.price / lastClose;
+            records.forEach((entry) => {
+                entry.open *= scale;
+                entry.high *= scale;
+                entry.low *= scale;
+                entry.close *= scale;
+            });
+
+            records[records.length - 1].close = asset.price;
+            records[records.length - 1].high = Math.max(records[records.length - 1].high, asset.price);
+            records[records.length - 1].low = Math.min(records[records.length - 1].low, asset.price);
+            return records;
+        }
+
+        function buildSummary(asset, series) {
+            const first = series[0].open;
+            const last = series[series.length - 1].close;
+            const highest = Math.max(...series.map((entry) => entry.high));
+            const lowest = Math.min(...series.map((entry) => entry.low));
+            const avgVolume = series.reduce((sum, entry) => sum + entry.volume, 0) / series.length;
+            return {
+                rangeMove: ((last - first) / first) * 100,
+                highest,
+                lowest,
+                avgVolume
+            };
+        }
+
+        function renderChart(asset, series) {
+            const width = 860;
+            const height = 420;
+            const chartHeight = 270;
+            const volumeTop = 310;
+            const volumeHeight = 70;
+            const paddingLeft = 46;
+            const paddingRight = 18;
+            const maxPrice = Math.max(...series.map((entry) => entry.high));
+            const minPrice = Math.min(...series.map((entry) => entry.low));
+            const pricePadding = (maxPrice - minPrice) * 0.12 || asset.price * 0.1;
+            const topValue = maxPrice + pricePadding;
+            const bottomValue = minPrice - pricePadding;
+            const innerWidth = width - paddingLeft - paddingRight;
+            const step = innerWidth / series.length;
+            const candleWidth = Math.max(6, step * 0.52);
+            const maxVolume = Math.max(...series.map((entry) => entry.volume));
+            const priceToY = (value) => chartHeight - ((value - bottomValue) / (topValue - bottomValue)) * chartHeight + 20;
+            const volumeToHeight = (value) => (value / maxVolume) * volumeHeight;
+
+            const gridLines = Array.from({ length: 5 }, (_, index) => {
+                const y = 20 + (chartHeight / 4) * index;
+                const value = topValue - ((topValue - bottomValue) / 4) * index;
+                return `
+                    <line x1="${paddingLeft}" y1="${y}" x2="${width - paddingRight}" y2="${y}" class="quote-grid-line"></line>
+                    <text x="${width - 8}" y="${y + 4}" class="quote-axis-label" text-anchor="end">${formatPrice(asset, value)}</text>
+                `;
+            }).join('');
+
+            const candles = series.map((entry, index) => {
+                const x = paddingLeft + step * index + step / 2;
+                const openY = priceToY(entry.open);
+                const closeY = priceToY(entry.close);
+                const highY = priceToY(entry.high);
+                const lowY = priceToY(entry.low);
+                const bodyY = Math.min(openY, closeY);
+                const bodyHeight = Math.max(2, Math.abs(closeY - openY));
+                const rising = entry.close >= entry.open;
+                const volumeHeightValue = volumeToHeight(entry.volume);
+                const volumeY = volumeTop + (volumeHeight - volumeHeightValue);
+
+                return `
+                    <line x1="${x}" y1="${highY}" x2="${x}" y2="${lowY}" class="quote-wick ${rising ? 'up' : 'down'}"></line>
+                    <rect x="${x - candleWidth / 2}" y="${bodyY}" width="${candleWidth}" height="${bodyHeight}" rx="2" class="quote-candle ${rising ? 'up' : 'down'}"></rect>
+                    <rect x="${x - candleWidth / 2}" y="${volumeY}" width="${candleWidth}" height="${volumeHeightValue}" rx="1" class="quote-volume ${rising ? 'up' : 'down'}"></rect>
+                `;
+            }).join('');
+
+            const lastPriceY = priceToY(series[series.length - 1].close);
+
+            return `
+                <svg viewBox="0 0 ${width} ${height}" class="quote-chart-svg" role="img" aria-label="${asset.name} price chart">
+                    <rect x="0" y="0" width="${width}" height="${height}" class="quote-chart-bg"></rect>
+                    ${gridLines}
+                    <line x1="${paddingLeft}" y1="${lastPriceY}" x2="${width - paddingRight}" y2="${lastPriceY}" class="quote-last-line"></line>
+                    ${candles}
+                    <text x="${width - 8}" y="${lastPriceY - 8}" class="quote-last-price" text-anchor="end">${formatPrice(asset, series[series.length - 1].close)}</text>
+                    <line x1="${paddingLeft}" y1="${volumeTop + volumeHeight}" x2="${width - paddingRight}" y2="${volumeTop + volumeHeight}" class="quote-volume-base"></line>
+                </svg>
+            `;
+        }
+
+        function createViewerMarkup(assetKey, range) {
+            const asset = quoteCatalog[assetKey];
+            const series = generateSeries(assetKey, range);
+            const summary = buildSummary(asset, series);
+            const upTrend = summary.rangeMove >= 0;
+            const toolbarButtons = Object.keys(rangeConfig).map((rangeKey) => `
+                <button type="button" class="quote-range-btn ${rangeKey === range ? 'is-active' : ''}" data-range="${rangeKey}">${rangeKey}</button>
+            `).join('');
+
+            return `
+                <div class="quote-viewer-shell">
+                    <div class="quote-viewer-top">
+                        <div>
+                            <div class="quote-viewer-badge">${asset.section}</div>
+                            <h3>${asset.name}</h3>
+                            <p>${asset.symbol} interactive quote chart</p>
+                        </div>
+                        <div class="quote-viewer-price">
+                            <strong>${formatPrice(asset, asset.price)}</strong>
+                            <span class="${asset.change >= 0 ? 'up' : 'down'}">${formatPercent(asset.change)}</span>
+                        </div>
+                    </div>
+                    <div class="quote-toolbar">
+                        <div class="quote-toolbar-left">${toolbarButtons}</div>
+                        <div class="quote-toolbar-right">
+                            <span>High: ${formatPrice(asset, summary.highest)}</span>
+                            <span>Low: ${formatPrice(asset, summary.lowest)}</span>
+                        </div>
+                    </div>
+                    <div class="quote-viewer-actions">
+                        <button type="button" class="quote-add-btn" data-broker-asset="${assetKey}">Add ${asset.symbol} To Brokerage Account</button>
+                        <span class="quote-action-note">Quick-fill this asset into your personal account form.</span>
+                    </div>
+                    <div class="quote-chart-panel">
+                        <div class="quote-chart-wrap">${renderChart(asset, series)}</div>
+                    </div>
+                    <div class="quote-metrics">
+                        <div class="quote-metric"><span>${asset.meta1Label}</span><strong>${asset.meta1Value}</strong></div>
+                        <div class="quote-metric"><span>${asset.meta2Label}</span><strong>${asset.meta2Value}</strong></div>
+                        <div class="quote-metric"><span>${rangeConfig[range].label} change</span><strong class="${upTrend ? 'up' : 'down'}">${formatPercent(summary.rangeMove)}</strong></div>
+                        <div class="quote-metric"><span>Average volume</span><strong>${formatVolume(summary.avgVolume)}</strong></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function activateCard(card) {
+            const viewerId = card.dataset.viewerTarget;
+            const viewer = document.getElementById(viewerId);
+            const assetKey = card.dataset.asset;
+            const selectedRange = viewer.dataset.range || '1M';
+
+            document.querySelectorAll(`[data-viewer-target="${viewerId}"]`).forEach((item) => {
+                item.classList.toggle('is-active', item === card);
+            });
+
+            viewer.dataset.asset = assetKey;
+            viewer.dataset.range = selectedRange;
+            viewer.innerHTML = createViewerMarkup(assetKey, selectedRange);
+            bindRangeButtons(viewer);
+        }
+
+        function bindRangeButtons(viewer) {
+            viewer.querySelectorAll('.quote-range-btn').forEach((button) => {
+                button.addEventListener('click', () => {
+                    viewer.dataset.range = button.dataset.range;
+                    viewer.innerHTML = createViewerMarkup(viewer.dataset.asset, button.dataset.range);
+                    bindRangeButtons(viewer);
+                });
+            });
+        }
+
+        function showBrokerageMessage(text, type = '') {
+            brokerageMessage.textContent = text;
+            brokerageMessage.className = type ? `brokerage-message ${type}` : 'brokerage-message';
+        }
+
+        function populateBrokerAssetOptions() {
+            const options = Object.entries(quoteCatalog)
+                .sort(([, assetA], [, assetB]) => assetA.section === assetB.section ? assetA.name.localeCompare(assetB.name) : assetA.section.localeCompare(assetB.section))
+                .map(([assetKey, asset]) => `<option value="${assetKey}">${asset.name} (${asset.symbol}) - ${asset.section}</option>`)
+                .join('');
+            assetKeyField.innerHTML = options;
+            updateBrokerAssetPreview(assetKeyField.value);
+        }
+
+        function updateBrokerAssetPreview(assetKey) {
+            const asset = quoteCatalog[assetKey];
+            if (!asset) return;
+            assetTypePreview.value = asset.section;
+            assetSymbolPreview.value = asset.symbol;
+            entryPriceField.value = asset.price;
+            currentPriceField.value = asset.price;
+        }
+
+        function renderBrokerPositions(positions, currency) {
+            if (!positions.length) {
+                brokerPositionsList.innerHTML = `<div class="brokerage-empty-state"><strong>No positions yet</strong><p>Create your first trade by selecting any asset above and adding it to your account.</p></div>`;
+                return;
+            }
+
+            brokerPositionsList.innerHTML = positions.map((position) => `
+                <article class="brokerage-position-card">
+                    <div class="brokerage-position-top">
+                        <div>
+                            <span class="broker-chip">${escapeHtml(position.asset_type)}</span>
+                            <h5>${escapeHtml(position.asset_name)}</h5>
+                            <p>${escapeHtml(position.symbol)} - ${Number(position.quantity).toLocaleString('en-US', { maximumFractionDigits: 6 })} units</p>
+                        </div>
+                        <button type="button" class="brokerage-remove-btn" data-position-id="${position.id}">Remove</button>
+                    </div>
+                    <div class="brokerage-position-metrics">
+                        <div><span>Entry</span><strong>${formatBrokerMoney(position.entry_price, currency)}</strong></div>
+                        <div><span>Current</span><strong>${formatBrokerMoney(position.current_price, currency)}</strong></div>
+                        <div><span>Market value</span><strong>${formatBrokerMoney(position.market_value, currency)}</strong></div>
+                        <div><span>P&amp;L</span><strong class="${position.pnl >= 0 ? 'up' : 'down'}">${formatBrokerMoney(position.pnl, currency)}</strong></div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function renderBrokerAccountOptions(accounts, selectedAccountId) {
+            brokerState.accounts = accounts;
+            brokerAccountSwitcher.innerHTML = accounts
+                .map((account) => `
+                    <option value="${account.id}" ${account.id === selectedAccountId ? 'selected' : ''}>
+                        ${escapeHtml(account.account_name)} (${account.base_currency})
+                    </option>
+                `)
+                .join('');
+        }
+
+        function renderBrokerDashboard(accountData) {
+            brokerState.accountData = accountData ? accountData.selectedAccount : null;
+
+            if (!accountData || !accountData.selectedAccount) {
+                brokerCreateCard.hidden = false;
+                brokerDashboard.hidden = true;
+                brokerPositionsList.innerHTML = '';
+                brokerAccountSwitcher.innerHTML = '';
+                return;
+            }
+
+            const { account, positions, summary } = accountData.selectedAccount;
+            brokerCreateCard.hidden = false;
+            brokerDashboard.hidden = false;
+            renderBrokerAccountOptions(accountData.accounts, account.id);
+            brokerAccountTitle.textContent = account.account_name;
+            brokerAccountMeta.textContent = `${account.base_currency} base - created ${new Date(account.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}`;
+            brokerStatusBadge.textContent = account.is_active ? 'Active account' : 'Loaded account';
+            summaryCash.textContent = formatBrokerMoney(summary.cashBalance, account.base_currency);
+            summaryMarketValue.textContent = formatBrokerMoney(summary.marketValue, account.base_currency);
+            summaryEquity.textContent = formatBrokerMoney(summary.totalEquity, account.base_currency);
+            summaryPnl.textContent = formatBrokerMoney(summary.totalPnl, account.base_currency);
+            summaryPnl.className = summary.totalPnl >= 0 ? 'up' : 'down';
+            renderBrokerPositions(positions, account.base_currency);
+        }
+
+        async function loadBrokerageAccount() {
+            try {
+                const selectedAccountId = brokerAccountSwitcher.value ? `?accountId=${encodeURIComponent(brokerAccountSwitcher.value)}` : '';
+                const response = await fetch(`/api/brokerage-account${selectedAccountId}`);
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.message || 'Failed to load brokerage account');
+                renderBrokerDashboard(result.data);
+            } catch (error) {
+                showBrokerageMessage(error.message || 'Could not load brokerage account.', 'is-error');
+            }
+        }
+
+        function prefillBrokerAsset(assetKey) {
+            if (!quoteCatalog[assetKey]) return;
+            assetKeyField.value = assetKey;
+            updateBrokerAssetPreview(assetKey);
+            quantityField.focus();
+            document.getElementById('brokerage-account').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            showBrokerageMessage(
+                brokerState.accountData
+                    ? `Prepared ${quoteCatalog[assetKey].name} for your account form.`
+                    : 'Create your brokerage account first, then this asset will be ready to add.',
+                brokerState.accountData ? 'is-success' : 'is-info'
+            );
+        }
+
+        brokerAccountForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const submitButton = brokerAccountForm.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Creating...';
+            showBrokerageMessage('');
+
+            try {
+                const response = await fetch('/api/brokerage-account', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        accountName: brokerAccountForm.accountName.value.trim(),
+                        baseCurrency: brokerAccountForm.baseCurrency.value,
+                        initialDeposit: brokerAccountForm.initialDeposit.value
+                    })
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.message || 'Failed to create account');
+                brokerAccountForm.reset();
+                showBrokerageMessage(result.message || 'Brokerage account created.', 'is-success');
+                await loadBrokerageAccount();
+            } catch (error) {
+                showBrokerageMessage(error.message || 'Failed to create account.', 'is-error');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Create Account';
+            }
+        });
+
+        brokerPositionForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const asset = quoteCatalog[assetKeyField.value];
+            const submitButton = brokerPositionForm.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Adding...';
+            showBrokerageMessage('');
+
+            try {
+                const response = await fetch('/api/brokerage-account/positions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        accountId: brokerAccountSwitcher.value,
+                        assetKey: assetKeyField.value,
+                        assetName: asset.name,
+                        assetType: asset.section,
+                        symbol: asset.symbol,
+                        quantity: quantityField.value,
+                        entryPrice: entryPriceField.value,
+                        currentPrice: currentPriceField.value
+                    })
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.message || 'Failed to add asset');
+                quantityField.value = '';
+                updateBrokerAssetPreview(assetKeyField.value);
+                showBrokerageMessage(result.message || 'Position added.', 'is-success');
+                await loadBrokerageAccount();
+            } catch (error) {
+                showBrokerageMessage(error.message || 'Failed to add position.', 'is-error');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Add To Account';
+            }
+        });
+
+        assetKeyField.addEventListener('change', () => updateBrokerAssetPreview(assetKeyField.value));
+
+        brokerAccountSwitcher.addEventListener('change', async () => {
+            if (!brokerAccountSwitcher.value) {
+                return;
+            }
+
+            showBrokerageMessage('');
+
+            try {
+                const response = await fetch('/api/brokerage-account/select', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ accountId: brokerAccountSwitcher.value })
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.message || 'Failed to switch account');
+                showBrokerageMessage(result.message || 'Brokerage account switched.', 'is-success');
+                await loadBrokerageAccount();
+            } catch (error) {
+                showBrokerageMessage(error.message || 'Failed to switch account.', 'is-error');
+            }
+        });
+
+        brokerPositionsList.addEventListener('click', async (event) => {
+            const removeButton = event.target.closest('.brokerage-remove-btn');
+            if (!removeButton) return;
+            removeButton.disabled = true;
+            showBrokerageMessage('');
+
+            try {
+                const response = await fetch(`/api/brokerage-account/positions/${removeButton.dataset.positionId}`, { method: 'DELETE' });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.message || 'Failed to remove position');
+                showBrokerageMessage(result.message || 'Position removed.', 'is-success');
+                await loadBrokerageAccount();
+            } catch (error) {
+                removeButton.disabled = false;
+                showBrokerageMessage(error.message || 'Failed to remove position.', 'is-error');
+            }
+        });
+
+        document.addEventListener('click', (event) => {
+            const quickAddButton = event.target.closest('.quote-add-btn');
+            if (quickAddButton) prefillBrokerAsset(quickAddButton.dataset.brokerAsset);
+        });
+
+        document.querySelectorAll('.quote-card').forEach((card) => {
+            card.addEventListener('click', () => activateCard(card));
+        });
+
+        Object.entries(sectionDefaults).forEach(([viewerId, assetKey]) => {
+            const viewer = document.getElementById(viewerId);
+            viewer.dataset.asset = assetKey;
+            viewer.dataset.range = '1M';
+            viewer.innerHTML = createViewerMarkup(assetKey, '1M');
+            bindRangeButtons(viewer);
+        });
+
+        populateBrokerAssetOptions();
+        loadBrokerageAccount();
+    </script>
+    <script src="/js/scroll-top.js"></script>
+</body>
+
+</html>
