@@ -7,8 +7,10 @@ const pool = require('./db/db');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const IS_VERCEL = Boolean(process.env.VERCEL);
 const SESSION_COOKIE_NAME = 'smartfinance_session';
 const SESSION_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
+let tablesReadyPromise = null;
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -235,6 +237,14 @@ async function ensureTables() {
   `);
 }
 
+async function prepareDatabase() {
+  if (!tablesReadyPromise) {
+    tablesReadyPromise = ensureTables();
+  }
+
+  return tablesReadyPromise;
+}
+
 async function attachCurrentUser(req, res, next) {
   try {
     const cookies = parseCookies(req.headers.cookie);
@@ -281,6 +291,19 @@ function requireApiAuth(req, res, next) {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(attachCurrentUser);
+
+app.use('/api', async (req, res, next) => {
+  try {
+    await prepareDatabase();
+    return next();
+  } catch (error) {
+    console.error('Database is not ready:', error.message);
+    return res.status(503).json({
+      success: false,
+      message: 'Database is not configured or unavailable'
+    });
+  }
+});
 
 app.get('/', (req, res) => {
   if (!req.currentUser) {
@@ -948,19 +971,23 @@ app.use('/api', (err, req, res, next) => {
   });
 });
 
-ensureTables()
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`
+if (!IS_VERCEL) {
+  prepareDatabase()
+    .then(() => {
+      app.listen(PORT, () => {
+        console.log(`
 +----------------------------------------+
 |         Server started successfully    |
 |                                        |
 |  URL: http://localhost:${PORT}
 +----------------------------------------+
       `);
+      });
+    })
+    .catch((error) => {
+      console.error('Failed to prepare database tables:', error.message);
+      process.exit(1);
     });
-  })
-  .catch((error) => {
-    console.error('Failed to prepare database tables:', error.message);
-    process.exit(1);
-  });
+}
+
+module.exports = app;
