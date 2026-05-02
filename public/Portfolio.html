@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - SmartFinance</title>
-    <link rel="stylesheet" href="/css/main.css?v=5">
+    <link rel="stylesheet" href="/css/main.css?v=7">
 </head>
 
 <body>
@@ -161,7 +161,7 @@
             </div>
 
             <div class="indices-grid">
-                <button class="index-card quote-card is-active" type="button" data-asset="sp500" data-viewer-target="indices-viewer">
+                <button class="index-card quote-card" type="button" data-asset="sp500" data-viewer-target="indices-viewer">
                     <div class="index-header">
                         <h3>S&amp;P 500</h3>
                         <span class="market-badge usa">USA</span>
@@ -270,7 +270,6 @@
                 </button>
             </div>
 
-            <section class="quote-viewer" id="indices-viewer" aria-live="polite"></section>
         </div>
 
         <div class="container portfolio-section" id="crypto-market">
@@ -280,7 +279,7 @@
             </div>
 
             <div class="crypto-grid">
-                <button class="crypto-card quote-card is-active" type="button" data-asset="bitcoin" data-viewer-target="crypto-viewer">
+                <button class="crypto-card quote-card" type="button" data-asset="bitcoin" data-viewer-target="crypto-viewer">
                     <div class="crypto-header">
                         <h3>Bitcoin</h3>
                         <span class="crypto-symbol">BTC</span>
@@ -407,7 +406,6 @@
                 </button>
             </div>
 
-            <section class="quote-viewer" id="crypto-viewer" aria-live="polite"></section>
         </div>
 
         <div class="container portfolio-section" id="forex-market">
@@ -417,7 +415,7 @@
             </div>
 
             <div class="forex-grid">
-                <button class="forex-card quote-card is-active" type="button" data-asset="eurusd" data-viewer-target="forex-viewer">
+                <button class="forex-card quote-card" type="button" data-asset="eurusd" data-viewer-target="forex-viewer">
                     <div class="forex-header">
                         <h3>EUR/USD</h3>
                         <p class="pair-name">Euro / US Dollar</p>
@@ -544,7 +542,6 @@
                 </button>
             </div>
 
-            <section class="quote-viewer" id="forex-viewer" aria-live="polite"></section>
         </div>
     </div>
 
@@ -1119,20 +1116,15 @@
         });
 
         document.querySelectorAll('.quote-card').forEach((card) => {
-            card.addEventListener('click', () => activateCard(card));
-        });
-
-        Object.entries(sectionDefaults).forEach(([viewerId, assetKey]) => {
-            const viewer = document.getElementById(viewerId);
-            viewer.dataset.asset = assetKey;
-            viewer.dataset.range = '1M';
-            viewer.innerHTML = createViewerMarkup(assetKey, '1M');
-            bindRangeButtons(viewer);
+            card.addEventListener('click', () => {
+                window.open(`/market-detail.html?id=${encodeURIComponent(card.dataset.asset)}`, '_blank', 'noopener');
+            });
         });
 
         populateBrokerAssetOptions();
         loadBrokerageAccount();
     </script>
+    <script src="/js/site-menu.js"></script>
     <script src="/js/scroll-top.js"></script>
 </body>
 

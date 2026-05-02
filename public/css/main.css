@@ -3013,6 +3013,1130 @@ footer > p {
     font-weight: 800;
 }
 
+/* Final light theme layer. Kept at the end so it wins over older page-specific rules. */
+body.sf-light-theme {
+    background: rgb(239, 245, 251);
+    color: rgb(15, 23, 42);
+}
+
+body.sf-light-theme .wrapper,
+body.sf-light-theme.market-detail-page {
+    background:
+        radial-gradient(circle at 12% 0%, rgba(96, 165, 250, 0.16), transparent 28%),
+        radial-gradient(circle at 92% 16%, rgba(20, 184, 166, 0.08), transparent 30%),
+        linear-gradient(180deg, rgb(248, 251, 255), rgb(232, 241, 250));
+}
+
+body.sf-light-theme header,
+body.sf-light-theme .home-page .site-header,
+body.sf-light-theme.home-page .site-header {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(148, 163, 184, 0.28);
+    box-shadow: 0 18px 50px rgba(51, 65, 85, 0.12);
+}
+
+body.sf-light-theme .market-strip-item,
+body.sf-light-theme .index-card,
+body.sf-light-theme .crypto-card,
+body.sf-light-theme .forex-card,
+body.sf-light-theme .quick-stat-card,
+body.sf-light-theme .terminal-card,
+body.sf-light-theme .insight-panel-card,
+body.sf-light-theme .insight-mini-card,
+body.sf-light-theme .features .info .block.market-block,
+body.sf-light-theme .email .block,
+body.sf-light-theme .feature-card,
+body.sf-light-theme .value-card,
+body.sf-light-theme .contact-form-wrapper,
+body.sf-light-theme .info-card,
+body.sf-light-theme .contact-faq,
+body.sf-light-theme .news-card,
+body.sf-light-theme .article-shell,
+body.sf-light-theme .article-side-card,
+body.sf-light-theme .brokerage-create-card,
+body.sf-light-theme .brokerage-dashboard,
+body.sf-light-theme .brokerage-add-card,
+body.sf-light-theme .brokerage-positions-card,
+body.sf-light-theme .brokerage-summary-card,
+body.sf-light-theme .brokerage-position-card,
+body.sf-light-theme .brokerage-empty-state,
+body.sf-light-theme .detail-headline,
+body.sf-light-theme .detail-chart-card,
+body.sf-light-theme .detail-performance-grid article,
+body.sf-light-theme .detail-mini-chart-card,
+body.sf-light-theme .detail-watchlist-card,
+body.sf-light-theme .watchlist-empty,
+body.sf-light-theme .sf-asset-row,
+body.sf-light-theme .auth-card {
+    background: rgb(255, 255, 255);
+    border-color: rgba(148, 163, 184, 0.26);
+    box-shadow: 0 18px 48px rgba(51, 65, 85, 0.1);
+}
+
+body.sf-light-theme .crypto-card,
+body.sf-light-theme .features .info .block.market-block.crypto,
+body.sf-light-theme .features .info .block.market-block.index,
+body.sf-light-theme .features .info .block.market-block.forex {
+    background: rgb(255, 255, 255);
+}
+
+body.sf-light-theme h1,
+body.sf-light-theme h2,
+body.sf-light-theme h3,
+body.sf-light-theme h4,
+body.sf-light-theme a,
+body.sf-light-theme header nav ul li a,
+body.sf-light-theme .SmartFinance,
+body.sf-light-theme .logout-link,
+body.sf-light-theme .hero--info h1,
+body.sf-light-theme .hero--info h2,
+body.sf-light-theme .home-hero .hero--info h1,
+body.sf-light-theme .index-header h3,
+body.sf-light-theme .crypto-header h3,
+body.sf-light-theme .forex-header h3,
+body.sf-light-theme .index-value .price,
+body.sf-light-theme .crypto-price .price,
+body.sf-light-theme .forex-price .rate,
+body.sf-light-theme .detail-row strong,
+body.sf-light-theme .stat strong,
+body.sf-light-theme .quick-stat-card strong,
+body.sf-light-theme .terminal-card strong,
+body.sf-light-theme .terminal-card h4,
+body.sf-light-theme .insight-panel-card h3,
+body.sf-light-theme .insight-panel-card h4,
+body.sf-light-theme .insight-mini-card strong,
+body.sf-light-theme .features .info .block.market-block h4,
+body.sf-light-theme .email .block h4,
+body.sf-light-theme .news-card h2,
+body.sf-light-theme .news-card h3,
+body.sf-light-theme .article-title,
+body.sf-light-theme .contact-form h2,
+body.sf-light-theme .info-card h3,
+body.sf-light-theme .brokerage-card-copy h3,
+body.sf-light-theme .brokerage-card-copy h4,
+body.sf-light-theme .brokerage-summary-card strong,
+body.sf-light-theme .brokerage-position-card h5,
+body.sf-light-theme .detail-title-row h1,
+body.sf-light-theme .detail-price-row strong,
+body.sf-light-theme .detail-performance-grid strong,
+body.sf-light-theme .detail-mini-chart-card strong,
+body.sf-light-theme .detail-watchlist-card h2,
+body.sf-light-theme .watchlist-hero h1,
+body.sf-light-theme .watchlist-empty strong,
+body.sf-light-theme .sf-asset-row strong,
+body.sf-light-theme footer .blocks h4,
+body.sf-light-theme footer .blocks .logo {
+    color: rgb(15, 23, 42);
+}
+
+body.sf-light-theme p,
+body.sf-light-theme small,
+body.sf-light-theme .hero--info p,
+body.sf-light-theme .home-hero .hero--info p,
+body.sf-light-theme .portfolio-hero-content p,
+body.sf-light-theme .news-hero-content p,
+body.sf-light-theme .contact-hero-content p,
+body.sf-light-theme .index-info p,
+body.sf-light-theme .pair-name,
+body.sf-light-theme .detail-row span,
+body.sf-light-theme .stat p,
+body.sf-light-theme .quick-stat-card p,
+body.sf-light-theme .terminal-card p,
+body.sf-light-theme .insight-panel-card p,
+body.sf-light-theme .features p,
+body.sf-light-theme .email .block p,
+body.sf-light-theme .news-card p,
+body.sf-light-theme .article-lead,
+body.sf-light-theme .article-body p,
+body.sf-light-theme .contact-form-wrapper p,
+body.sf-light-theme .info-card p,
+body.sf-light-theme .brokerage-card-copy p,
+body.sf-light-theme .brokerage-summary-card span,
+body.sf-light-theme .brokerage-position-metrics span,
+body.sf-light-theme .detail-title-row p,
+body.sf-light-theme .detail-session-strip span,
+body.sf-light-theme .detail-performance-grid span,
+body.sf-light-theme .detail-mini-chart-card p,
+body.sf-light-theme .watchlist-hero p,
+body.sf-light-theme .watchlist-empty p,
+body.sf-light-theme .sf-asset-row small,
+body.sf-light-theme footer .blocks p,
+body.sf-light-theme footer .blocks ul li,
+body.sf-light-theme footer > p {
+    color: rgb(71, 85, 105);
+}
+
+body.sf-light-theme .section-kicker,
+body.sf-light-theme .hero-kicker,
+body.sf-light-theme .badge-hero,
+body.sf-light-theme .portfolio-hero-content .badge-hero,
+body.sf-light-theme .news-hero-content .badge-hero,
+body.sf-light-theme .contact-hero-content .badge-hero,
+body.sf-light-theme .detail-market-chip,
+body.sf-light-theme .broker-chip,
+body.sf-light-theme .news-card-tag,
+body.sf-light-theme .quick-stat-label,
+body.sf-light-theme .insight-mini-card span {
+    background: rgb(219, 234, 254);
+    border-color: rgb(191, 219, 254);
+    color: rgb(37, 99, 235);
+    -webkit-text-fill-color: currentColor;
+}
+
+body.sf-light-theme .index-info,
+body.sf-light-theme .forex-details,
+body.sf-light-theme .detail-session-strip div,
+body.sf-light-theme .quote-card,
+body.sf-light-theme footer {
+    border-color: rgba(148, 163, 184, 0.26);
+}
+
+body.sf-light-theme .index-chart .mini-chart {
+    opacity: 0.9 !important;
+}
+
+body.sf-light-theme .change.up,
+body.sf-light-theme .up,
+body.sf-light-theme .market-strip-item em {
+    color: rgb(22, 163, 74);
+}
+
+body.sf-light-theme .change.down,
+body.sf-light-theme .down {
+    color: rgb(220, 38, 38);
+}
+
+body.sf-light-theme .market-badge.usa,
+body.sf-light-theme .crypto-symbol {
+    background: rgb(219, 234, 254);
+    color: rgb(37, 99, 235);
+}
+
+body.sf-light-theme .market-badge.eu {
+    background: rgb(220, 252, 231);
+    color: rgb(22, 101, 52);
+}
+
+body.sf-light-theme .market-badge.uk {
+    background: rgb(255, 237, 213);
+    color: rgb(194, 65, 12);
+}
+
+body.sf-light-theme .market-badge.jp,
+body.sf-light-theme .market-badge.asia {
+    background: rgb(254, 226, 226);
+    color: rgb(220, 38, 38);
+}
+
+body.sf-light-theme input,
+body.sf-light-theme select,
+body.sf-light-theme textarea,
+body.sf-light-theme .auth-form input,
+body.sf-light-theme .brokerage-form input,
+body.sf-light-theme .brokerage-form select,
+body.sf-light-theme .contact-form input,
+body.sf-light-theme .contact-form textarea,
+body.sf-light-theme .email .block input {
+    background: rgb(248, 250, 252);
+    border-color: rgba(148, 163, 184, 0.36);
+    color: rgb(15, 23, 42);
+}
+
+body.sf-light-theme .main-terminal-card .terminal-chart,
+body.sf-light-theme .quote-chart-panel,
+body.sf-light-theme .detail-chart-svg {
+    background: rgb(15, 23, 42);
+}
+
+body.sf-light-theme footer {
+    background: rgb(248, 250, 252);
+}
+
+.market-detail-page {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, rgba(118, 167, 246, 0.12), transparent 26%),
+        linear-gradient(180deg, rgb(3, 10, 16), rgb(5, 18, 27) 58%, rgb(1, 9, 13));
+}
+
+.market-detail-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 350px;
+    gap: 34px;
+    padding-top: 42px;
+    padding-bottom: 70px;
+}
+
+.market-detail-main,
+.market-detail-sidebar {
+    min-width: 0;
+}
+
+.detail-headline,
+.detail-chart-card,
+.detail-performance-grid article,
+.detail-mini-chart-card,
+.detail-watchlist-card {
+    border: 1px solid rgba(118, 167, 246, 0.16);
+    background: rgba(3, 15, 24, 0.78);
+    box-shadow: 0 24px 90px rgba(0, 0, 0, 0.28);
+}
+
+.detail-headline {
+    border-radius: 24px;
+    padding: 30px;
+}
+
+.detail-back-link {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 22px;
+    color: rgb(169, 198, 231);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.detail-title-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 26px;
+}
+
+.detail-market-chip {
+    display: inline-flex;
+    margin-bottom: 12px;
+    border-radius: 999px;
+    padding: 7px 12px;
+    color: rgb(125, 183, 255);
+    background: rgba(118, 167, 246, 0.13);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.detail-title-row h1 {
+    max-width: 760px;
+    color: rgb(255, 255, 255);
+    font-size: 36px;
+    line-height: 1.12;
+    font-weight: 900;
+    margin-bottom: 10px;
+}
+
+.detail-title-row p {
+    max-width: 700px;
+    color: rgb(171, 190, 208);
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.detail-actions {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    flex-shrink: 0;
+}
+
+.detail-icon-btn,
+.detail-primary-btn {
+    min-height: 44px;
+    border-radius: 8px;
+    border: 1px solid rgba(118, 167, 246, 0.28);
+    font-weight: 800;
+}
+
+.detail-icon-btn {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    color: rgb(219, 234, 255);
+    background: rgba(255, 255, 255, 0.05);
+    font-size: 22px;
+}
+
+.detail-primary-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 18px;
+    color: rgb(255, 255, 255);
+    background: linear-gradient(135deg, rgb(41, 121, 220), rgb(91, 157, 238));
+    box-shadow: 0 14px 35px rgba(56, 130, 222, 0.24);
+    cursor: pointer;
+}
+
+.detail-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+}
+
+.detail-price-row strong {
+    color: rgb(255, 255, 255);
+    font-size: 48px;
+    line-height: 1;
+    font-weight: 900;
+}
+
+.detail-price-row span {
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.detail-price-row small {
+    color: rgb(149, 171, 193);
+    font-size: 14px;
+}
+
+.detail-session-strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 26px;
+}
+
+.detail-session-strip div {
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(118, 167, 246, 0.1);
+    padding: 15px;
+}
+
+.detail-session-strip span,
+.detail-performance-grid span,
+.detail-mini-chart-card span {
+    display: block;
+    color: rgb(149, 171, 193);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    margin-bottom: 8px;
+}
+
+.detail-session-strip strong {
+    color: rgb(235, 243, 252);
+    font-size: 15px;
+}
+
+.detail-tabs {
+    display: flex;
+    gap: 10px;
+    margin: 28px 0 16px;
+    overflow-x: auto;
+}
+
+.detail-tabs button,
+.detail-range-btn {
+    border: 1px solid rgba(118, 167, 246, 0.18);
+    background: rgba(6, 20, 32, 0.86);
+    color: rgb(174, 194, 213);
+    border-radius: 8px;
+    padding: 11px 14px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.detail-tabs button.is-active,
+.detail-range-btn.is-active,
+.detail-range-btn:hover {
+    color: rgb(255, 255, 255);
+    background: rgba(118, 167, 246, 0.2);
+    border-color: rgba(118, 167, 246, 0.52);
+}
+
+.detail-chart-card {
+    border-radius: 22px;
+    padding: 18px;
+    overflow: hidden;
+}
+
+.detail-chart-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.detail-range-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.detail-technical-link {
+    color: rgb(125, 183, 255);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.detail-chart-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    background: rgb(2, 11, 18);
+}
+
+.detail-chart-bg {
+    fill: transparent;
+}
+
+.detail-grid-line {
+    stroke: rgba(151, 180, 207, 0.12);
+}
+
+.detail-axis-label {
+    fill: rgba(191, 210, 225, 0.72);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.detail-last-line {
+    stroke: rgba(255, 255, 255, 0.42);
+    stroke-dasharray: 7 7;
+}
+
+.detail-last-price {
+    fill: rgb(255, 255, 255);
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.detail-wick {
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+
+.detail-wick.up {
+    stroke: rgb(95, 224, 122);
+}
+
+.detail-wick.down {
+    stroke: rgb(255, 125, 125);
+}
+
+.detail-candle.up {
+    fill: rgb(76, 189, 16);
+}
+
+.detail-candle.down {
+    fill: rgb(255, 107, 107);
+}
+
+.detail-volume.up {
+    fill: rgba(76, 189, 16, 0.42);
+}
+
+.detail-volume.down {
+    fill: rgba(255, 107, 107, 0.42);
+}
+
+.detail-volume-base {
+    stroke: rgba(118, 167, 246, 0.14);
+}
+
+.detail-performance-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.detail-performance-grid article {
+    border-radius: 16px;
+    padding: 18px;
+}
+
+.detail-performance-grid strong {
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.detail-mini-chart-card,
+.detail-watchlist-card {
+    border-radius: 22px;
+    padding: 22px;
+}
+
+.detail-mini-chart-card {
+    margin-bottom: 18px;
+    background:
+        radial-gradient(circle at top right, rgba(76, 189, 16, 0.18), transparent 42%),
+        rgba(3, 15, 24, 0.84);
+}
+
+.detail-mini-chart-card strong,
+.detail-watchlist-card h2 {
+    color: rgb(255, 255, 255);
+    font-size: 24px;
+    font-weight: 900;
+}
+
+.detail-mini-chart-card p {
+    margin-top: 12px;
+    color: rgb(171, 190, 208);
+    line-height: 1.65;
+}
+
+.detail-sidebar-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px 14px;
+    width: 100%;
+    text-align: left;
+    padding: 14px 0;
+    border: 0;
+    border-bottom: 1px solid rgba(118, 167, 246, 0.12);
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+
+.detail-sidebar-row:last-child {
+    border-bottom: 0;
+}
+
+.detail-sidebar-row span {
+    color: rgb(226, 237, 248);
+    font-weight: 800;
+}
+
+.detail-sidebar-row strong {
+    color: rgb(255, 255, 255);
+    font-size: 13px;
+}
+
+.detail-sidebar-row em {
+    grid-column: 2;
+    font-style: normal;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.detail-sidebar-row.is-active span {
+    color: rgb(125, 183, 255);
+}
+
+.quote-card::after {
+    content: "Open chart";
+    display: inline-flex;
+    margin-top: 16px;
+    color: rgb(169, 198, 231);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+}
+
+.sf-floating-menu {
+    position: fixed;
+    left: 20px;
+    top: 16px;
+    z-index: 1000;
+    font-family: inherit;
+}
+
+.sf-menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    min-height: 46px;
+    border: 1px solid rgba(118, 167, 246, 0.44);
+    border-radius: 14px;
+    padding: 0 16px;
+    background: linear-gradient(135deg, rgba(6, 22, 36, 0.98), rgba(11, 35, 55, 0.96));
+    color: rgb(255, 255, 255);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 900;
+    backdrop-filter: blur(14px);
+}
+
+.sf-menu-toggle::after {
+    content: "";
+    width: 7px;
+    height: 7px;
+    margin-left: 8px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+}
+
+.sf-menu-panel {
+    position: absolute;
+    left: 0;
+    top: 56px;
+    width: min(390px, calc(100vw - 32px));
+    max-height: calc(100vh - 178px);
+    overflow: auto;
+    border: 1px solid rgba(118, 167, 246, 0.24);
+    border-radius: 20px;
+    padding: 16px;
+    background:
+        radial-gradient(circle at top right, rgba(118, 167, 246, 0.12), transparent 34%),
+        rgba(3, 13, 22, 0.99);
+    box-shadow: 0 34px 100px rgba(0, 0, 0, 0.62);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: all 180ms ease;
+    backdrop-filter: blur(20px);
+}
+
+.sf-floating-menu.is-open .sf-menu-panel {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.sf-menu-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.sf-menu-head strong {
+    display: block;
+    color: rgb(255, 255, 255);
+    font-weight: 900;
+}
+
+.sf-menu-head small {
+    display: block;
+    margin-top: 4px;
+    color: rgb(141, 163, 184);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.sf-menu-head a {
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: rgb(255, 255, 255);
+    background: rgba(118, 167, 246, 0.2);
+    font-size: 12px;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.sf-theme-toggle {
+    width: 100%;
+    height: 42px;
+    margin-bottom: 14px;
+    border: 1px solid rgba(118, 167, 246, 0.22);
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(118, 167, 246, 0.16), rgba(76, 189, 16, 0.1));
+    color: rgb(236, 245, 255);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.sf-search-box span {
+    display: block;
+    margin-bottom: 8px;
+    color: rgb(151, 176, 201);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.sf-search-box input {
+    width: 100%;
+    height: 44px;
+    border: 1px solid rgba(118, 167, 246, 0.22);
+    border-radius: 10px;
+    padding: 0 13px;
+    background: rgba(255, 255, 255, 0.04);
+    color: rgb(255, 255, 255);
+    outline: none;
+}
+
+.sf-search-box input:focus {
+    border-color: rgba(118, 167, 246, 0.66);
+}
+
+.sf-search-results {
+    display: grid;
+    gap: 10px;
+    margin: 12px 0 14px;
+}
+
+.sf-asset-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px 12px;
+    align-items: center;
+    border: 1px solid rgba(118, 167, 246, 0.12);
+    border-radius: 12px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.sf-asset-row a {
+    min-width: 0;
+}
+
+.sf-asset-row span {
+    display: block;
+    margin-bottom: 6px;
+    color: rgb(125, 183, 255);
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.sf-asset-row strong {
+    display: block;
+    color: rgb(255, 255, 255);
+    font-size: 15px;
+    font-weight: 900;
+}
+
+.sf-asset-row small {
+    display: block;
+    margin-top: 5px;
+    color: rgb(159, 181, 202);
+    font-size: 12px;
+}
+
+.sf-asset-row em {
+    font-style: normal;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.sf-mini-action {
+    grid-column: 1 / -1;
+    justify-self: start;
+    border: 1px solid rgba(118, 167, 246, 0.22);
+    border-radius: 8px;
+    padding: 8px 11px;
+    color: rgb(224, 236, 250);
+    background: rgba(118, 167, 246, 0.1);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.sf-menu-links {
+    display: grid;
+    gap: 2px;
+    border-top: 1px solid rgba(118, 167, 246, 0.12);
+    padding-top: 12px;
+}
+
+.sf-menu-links a {
+    display: flex;
+    justify-content: space-between;
+    border-radius: 9px;
+    padding: 11px 10px;
+    color: rgb(227, 238, 249);
+    font-weight: 800;
+}
+
+.sf-menu-links a:hover {
+    background: rgba(118, 167, 246, 0.12);
+}
+
+.sf-empty-note {
+    border: 1px dashed rgba(118, 167, 246, 0.22);
+    border-radius: 12px;
+    padding: 14px;
+    color: rgb(159, 181, 202);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.sf-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 26px;
+    z-index: 1100;
+    transform: translate(-50%, 14px);
+    border: 1px solid rgba(118, 167, 246, 0.24);
+    border-radius: 999px;
+    padding: 12px 18px;
+    background: rgba(3, 14, 22, 0.96);
+    color: rgb(255, 255, 255);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 180ms ease;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    font-weight: 800;
+}
+
+.sf-toast.is-visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.watchlist-page {
+    padding-top: 80px;
+    padding-bottom: 90px;
+}
+
+.watchlist-hero {
+    max-width: 780px;
+    margin-bottom: 28px;
+}
+
+.watchlist-hero h1 {
+    color: rgb(255, 255, 255);
+    font-size: 56px;
+    line-height: 1;
+    font-weight: 900;
+    margin-bottom: 16px;
+}
+
+.watchlist-hero p {
+    color: rgb(180, 199, 218);
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+.watchlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.watchlist-empty {
+    max-width: 620px;
+    border: 1px solid rgba(118, 167, 246, 0.18);
+    border-radius: 22px;
+    padding: 28px;
+    background: rgba(3, 15, 24, 0.78);
+}
+
+.watchlist-empty strong {
+    display: block;
+    color: rgb(255, 255, 255);
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 10px;
+}
+
+.watchlist-empty p {
+    color: rgb(171, 190, 208);
+    margin-bottom: 18px;
+}
+
+.watchlist-empty a {
+    display: inline-flex;
+    border-radius: 8px;
+    padding: 12px 16px;
+    background: rgba(118, 167, 246, 0.18);
+    color: rgb(255, 255, 255);
+    font-weight: 900;
+}
+
+body.sf-light-theme {
+    color: rgb(21, 31, 43);
+    background: rgb(236, 242, 248);
+}
+
+body.sf-light-theme .wrapper,
+body.sf-light-theme .market-detail-page {
+    background:
+        radial-gradient(circle at top left, rgba(70, 137, 218, 0.16), transparent 30%),
+        linear-gradient(180deg, rgb(246, 249, 252), rgb(226, 236, 246));
+}
+
+body.sf-light-theme header,
+body.sf-light-theme .home-page .site-header,
+body.sf-light-theme .market-strip-item,
+body.sf-light-theme .terminal-card,
+body.sf-light-theme .quick-stat-card,
+body.sf-light-theme .insight-panel-card,
+body.sf-light-theme .insight-mini-card,
+body.sf-light-theme .index-card,
+body.sf-light-theme .crypto-card,
+body.sf-light-theme .forex-card,
+body.sf-light-theme .brokerage-create-card,
+body.sf-light-theme .brokerage-dashboard,
+body.sf-light-theme .brokerage-add-card,
+body.sf-light-theme .brokerage-positions-card,
+body.sf-light-theme .detail-headline,
+body.sf-light-theme .detail-chart-card,
+body.sf-light-theme .detail-performance-grid article,
+body.sf-light-theme .detail-mini-chart-card,
+body.sf-light-theme .detail-watchlist-card,
+body.sf-light-theme .watchlist-empty,
+body.sf-light-theme .sf-asset-row {
+    background: rgba(255, 255, 255, 0.82);
+    border-color: rgba(70, 137, 218, 0.18);
+    box-shadow: 0 18px 60px rgba(72, 100, 130, 0.12);
+}
+
+body.sf-light-theme.home-page .site-header {
+    background: rgba(255, 255, 255, 0.84);
+    border-color: rgba(70, 137, 218, 0.18);
+    box-shadow: 0 18px 60px rgba(72, 100, 130, 0.14);
+}
+
+body.sf-light-theme footer {
+    background: rgb(247, 250, 253);
+    border-top: 1px solid rgba(70, 137, 218, 0.14);
+}
+
+body.sf-light-theme footer hr {
+    background: rgba(70, 137, 218, 0.18);
+}
+
+body.sf-light-theme .features {
+    background:
+        radial-gradient(circle at top left, rgba(70, 137, 218, 0.12), transparent 30%),
+        linear-gradient(180deg, rgb(239, 246, 253), rgb(229, 238, 247));
+}
+
+body.sf-light-theme .features .info .block.market-block,
+body.sf-light-theme .email .block,
+body.sf-light-theme .contact-form-wrapper,
+body.sf-light-theme .info-card,
+body.sf-light-theme .contact-faq,
+body.sf-light-theme .feature-card,
+body.sf-light-theme .value-card,
+body.sf-light-theme .news-card,
+body.sf-light-theme .article-shell,
+body.sf-light-theme .article-side-card,
+body.sf-light-theme .brokerage-summary-card,
+body.sf-light-theme .brokerage-position-card,
+body.sf-light-theme .brokerage-empty-state {
+    background: rgba(255, 255, 255, 0.84);
+    border-color: rgba(70, 137, 218, 0.16);
+    box-shadow: 0 18px 60px rgba(72, 100, 130, 0.1);
+}
+
+body.sf-light-theme header nav ul li a,
+body.sf-light-theme a,
+body.sf-light-theme h1,
+body.sf-light-theme h2,
+body.sf-light-theme h3,
+body.sf-light-theme h4,
+body.sf-light-theme .SmartFinance,
+body.sf-light-theme .logout-link,
+body.sf-light-theme .index-header h3,
+body.sf-light-theme .crypto-header h3,
+body.sf-light-theme .forex-header h3,
+body.sf-light-theme .detail-title-row h1,
+body.sf-light-theme .detail-price-row strong,
+body.sf-light-theme .detail-performance-grid strong,
+body.sf-light-theme .watchlist-hero h1,
+body.sf-light-theme .sf-asset-row strong,
+body.sf-light-theme .market-strip-item strong,
+body.sf-light-theme .quick-stat-card strong,
+body.sf-light-theme .terminal-card strong,
+body.sf-light-theme .terminal-card h4,
+body.sf-light-theme .insight-panel-card h4,
+body.sf-light-theme .insight-panel-card h3,
+body.sf-light-theme .features .info .block.market-block h4,
+body.sf-light-theme .email .block h4,
+body.sf-light-theme footer .blocks h4,
+body.sf-light-theme footer .blocks .logo,
+body.sf-light-theme .news-card h2,
+body.sf-light-theme .news-card h3,
+body.sf-light-theme .article-title,
+body.sf-light-theme .contact-form h2,
+body.sf-light-theme .brokerage-card-copy h3,
+body.sf-light-theme .brokerage-card-copy h4,
+body.sf-light-theme .brokerage-summary-card strong {
+    color: rgb(15, 27, 39);
+}
+
+body.sf-light-theme p,
+body.sf-light-theme .portfolio-hero-content p,
+body.sf-light-theme .news-hero-content p,
+body.sf-light-theme .detail-title-row p,
+body.sf-light-theme .watchlist-hero p,
+body.sf-light-theme .sf-asset-row small,
+body.sf-light-theme .sf-empty-note,
+body.sf-light-theme .market-strip-item,
+body.sf-light-theme .quick-stat-card p,
+body.sf-light-theme .terminal-card p,
+body.sf-light-theme .features p,
+body.sf-light-theme .email .block p,
+body.sf-light-theme footer .blocks p,
+body.sf-light-theme footer .blocks ul li,
+body.sf-light-theme footer > p,
+body.sf-light-theme .news-card p,
+body.sf-light-theme .article-lead,
+body.sf-light-theme .article-body p,
+body.sf-light-theme .contact-hero-content p,
+body.sf-light-theme .contact-form-wrapper p,
+body.sf-light-theme .info-card p,
+body.sf-light-theme .contact-faq p,
+body.sf-light-theme .brokerage-card-copy p,
+body.sf-light-theme .index-info p,
+body.sf-light-theme .detail-row span {
+    color: rgb(81, 99, 119);
+}
+
+body.sf-light-theme .main-terminal-card .terminal-chart,
+body.sf-light-theme .detail-chart-svg,
+body.sf-light-theme .quote-chart-panel {
+    background: rgb(13, 25, 38);
+}
+
+body.sf-light-theme .hero-secondary-btn,
+body.sf-light-theme .quote-add-btn,
+body.sf-light-theme .brokerage-remove-btn {
+    color: rgb(21, 48, 77);
+    background: rgba(70, 137, 218, 0.1);
+    border-color: rgba(70, 137, 218, 0.26);
+}
+
+body.sf-light-theme .sf-menu-toggle {
+    background: linear-gradient(135deg, rgb(255, 255, 255), rgb(232, 240, 249));
+    color: rgb(14, 31, 49);
+    border-color: rgba(70, 137, 218, 0.36);
+}
+
+body.sf-light-theme .sf-menu-panel {
+    background:
+        radial-gradient(circle at top right, rgba(70, 137, 218, 0.12), transparent 34%),
+        rgba(250, 253, 255, 0.99);
+    border-color: rgba(70, 137, 218, 0.22);
+}
+
+body.sf-light-theme .sf-menu-head strong,
+body.sf-light-theme .sf-theme-toggle {
+    color: rgb(15, 27, 39);
+}
+
+body.sf-light-theme .sf-search-box input {
+    background: rgba(255, 255, 255, 0.92);
+    color: rgb(15, 27, 39);
+}
+
+body.sf-light-theme .sf-menu-links a {
+    color: rgb(24, 42, 60);
+}
+
+body.sf-light-theme .detail-chart-svg {
+    background: rgb(247, 250, 253);
+}
+
+@media (min-width: 901px) {
+    body.sf-has-market-menu header.container {
+        width: auto;
+        margin-left: 190px;
+        margin-right: 60px;
+    }
+
+    body.sf-has-market-menu.home-page .site-header {
+        width: auto;
+        margin-left: 190px;
+        margin-right: 60px;
+    }
+}
+
 
 .hero-news {
     padding: 100px 0;
@@ -3481,6 +4605,48 @@ footer > p {
 
     .quote-metrics {
         grid-template-columns: 1fr;
+    }
+
+    .market-detail-shell {
+        grid-template-columns: 1fr;
+        padding-top: 24px;
+    }
+
+    .detail-title-row,
+    .detail-chart-toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .detail-title-row h1 {
+        font-size: 30px;
+    }
+
+    .detail-price-row strong {
+        font-size: 38px;
+    }
+
+    .detail-session-strip,
+    .detail-performance-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-actions {
+        width: 100%;
+    }
+
+    .detail-primary-btn {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .sf-floating-menu {
+        left: 12px;
+        top: 86px;
+    }
+
+    .sf-menu-panel {
+        max-height: calc(100vh - 150px);
     }
 
     .brokerage-summary-grid,

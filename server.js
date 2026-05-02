@@ -980,6 +980,14 @@ app.get('/news-article.html', requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'news-article.html'));
 });
 
+app.get('/market-detail.html', requireAuth, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'market-detail.html'));
+});
+
+app.get('/watchlist.html', requireAuth, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'watchlist.html'));
+});
+
 app.get('/Contacts.html', requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'Contacts.html'));
 });

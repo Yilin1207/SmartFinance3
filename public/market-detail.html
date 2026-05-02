@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Detail - SmartFinance</title>
+    <link rel="stylesheet" href="/css/main.css?v=7">
+</head>
+<body>
+    <div class="wrapper market-detail-page">
+        <header class="container">
+            <span class="SmartFinance">SmartFinance</span>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about.html">About Us</a></li>
+                    <li class="active"><a href="/Portfolio.html">Portfolio</a></li>
+                    <li><a href="/News.html">News</a></li>
+                    <li class="btn"><a href="/Contacts.html">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="container market-detail-shell">
+            <section class="market-detail-main" id="marketDetailMain" aria-live="polite"></section>
+            <aside class="market-detail-sidebar" id="marketDetailSidebar" aria-label="Related markets"></aside>
+        </main>
+    </div>
+
+    <script>
+        const quoteCatalog = {
+            sp500: { name: 'S&P 500', fullName: 'Standard & Poor 500 Index', symbol: 'SPX', section: 'Indices', region: 'United States', currency: 'USD', price: 5847.42, change: 2.34, high: 5892.11, low: 5721.03, volumeLabel: '5.2B', signal: 'Strong buy', sentiment: 'Bullish', range52w: '4,103.78 - 5,892.11' },
+            nasdaq: { name: 'NASDAQ', fullName: 'Nasdaq Composite Index', symbol: 'IXIC', section: 'Indices', region: 'United States', currency: 'USD', price: 18423.95, change: 1.87, high: 18567.23, low: 18102.34, volumeLabel: '6.8B', signal: 'Buy', sentiment: 'Bullish', range52w: '12,543.86 - 18,567.23' },
+            dax: { name: 'DAX', fullName: 'Deutscher Aktienindex', symbol: 'DAX', section: 'Indices', region: 'Germany', currency: 'EUR', price: 18534.22, change: 1.56, high: 18634.11, low: 18289.45, volumeLabel: '92.4M', signal: 'Buy', sentiment: 'Constructive', range52w: '14,630.21 - 18,634.11' },
+            ftse100: { name: 'FTSE 100', fullName: 'Financial Times Stock Exchange 100', symbol: 'UKX', section: 'Indices', region: 'United Kingdom', currency: 'GBP', price: 8234.56, change: -0.92, high: 8312.34, low: 8156.78, volumeLabel: '731M', signal: 'Watch', sentiment: 'Cautious', range52w: '7,215.84 - 8,312.34' },
+            nikkei225: { name: 'Nikkei 225', fullName: 'Nikkei Stock Average', symbol: 'N225', section: 'Indices', region: 'Japan', currency: 'JPY', price: 33567.89, change: 0.45, high: 33734.12, low: 33412.56, volumeLabel: '1.1B', signal: 'Neutral', sentiment: 'Stable', range52w: '27,082.12 - 33,734.12' },
+            hsi: { name: 'Hang Seng Index', fullName: 'Hong Kong Hang Seng Index', symbol: 'HSI', section: 'Indices', region: 'Hong Kong', currency: 'HKD', price: 17234.25, change: -1.23, high: 17456.78, low: 17089.34, volumeLabel: '2.4B', signal: 'Watch', sentiment: 'Defensive', range52w: '14,794.16 - 19,706.12' },
+            bitcoin: { name: 'Bitcoin', fullName: 'Bitcoin USD', symbol: 'BTC', section: 'Crypto', region: 'Global', currency: 'USD', price: 67234.89, change: 5.42, high: 68112.35, low: 65408.12, volumeLabel: '$42.3B', signal: 'Breakout', sentiment: 'Bullish', range52w: '38,504.11 - 73,801.18' },
+            ethereum: { name: 'Ethereum', fullName: 'Ethereum USD', symbol: 'ETH', section: 'Crypto', region: 'Global', currency: 'USD', price: 3542.67, change: 3.89, high: 3612.44, low: 3410.23, volumeLabel: '$18.9B', signal: 'Buy', sentiment: 'Bullish', range52w: '1,862.44 - 4,092.17' },
+            ripple: { name: 'Ripple', fullName: 'XRP USD', symbol: 'XRP', section: 'Crypto', region: 'Global', currency: 'USD', price: 2.89, change: 12.56, high: 2.98, low: 2.46, volumeLabel: '$8.7B', signal: 'Momentum', sentiment: 'Bullish', range52w: '0.42 - 2.98' },
+            litecoin: { name: 'Litecoin', fullName: 'Litecoin USD', symbol: 'LTC', section: 'Crypto', region: 'Global', currency: 'USD', price: 187.42, change: -2.13, high: 194.60, low: 182.11, volumeLabel: '$1.2B', signal: 'Hold', sentiment: 'Mixed', range52w: '58.10 - 194.60' },
+            cardano: { name: 'Cardano', fullName: 'Cardano USD', symbol: 'ADA', section: 'Crypto', region: 'Global', currency: 'USD', price: 0.98, change: 8.34, high: 1.03, low: 0.92, volumeLabel: '$2.1B', signal: 'Buy', sentiment: 'Bullish', range52w: '0.24 - 1.03' },
+            solana: { name: 'Solana', fullName: 'Solana USD', symbol: 'SOL', section: 'Crypto', region: 'Global', currency: 'USD', price: 198.56, change: 15.67, high: 205.82, low: 184.30, volumeLabel: '$5.3B', signal: 'Strong buy', sentiment: 'Very bullish', range52w: '38.62 - 205.82' },
+            eurusd: { name: 'EUR/USD', fullName: 'Euro US Dollar', symbol: 'EURUSD', section: 'Forex', region: 'Europe / US', currency: 'FOREX4', price: 1.0856, change: 0.42, high: 1.0892, low: 1.0734, volumeLabel: '$184B', signal: 'Buy', sentiment: 'Euro bid', range52w: '1.0448 - 1.1147' },
+            gbpusd: { name: 'GBP/USD', fullName: 'British Pound US Dollar', symbol: 'GBPUSD', section: 'Forex', region: 'UK / US', currency: 'FOREX4', price: 1.2743, change: 1.23, high: 1.2834, low: 1.2567, volumeLabel: '$96B', signal: 'Buy', sentiment: 'Constructive', range52w: '1.2037 - 1.2894' },
+            usdjpy: { name: 'USD/JPY', fullName: 'US Dollar Japanese Yen', symbol: 'USDJPY', section: 'Forex', region: 'US / Japan', currency: 'FOREX2', price: 149.23, change: -0.56, high: 150.12, low: 148.89, volumeLabel: '$122B', signal: 'Watch', sentiment: 'Yen firming', range52w: '137.24 - 151.91' },
+            audusd: { name: 'AUD/USD', fullName: 'Australian Dollar US Dollar', symbol: 'AUDUSD', section: 'Forex', region: 'Australia / US', currency: 'FOREX4', price: 0.6745, change: 0.89, high: 0.6834, low: 0.6634, volumeLabel: '$54B', signal: 'Neutral', sentiment: 'Stable', range52w: '0.6270 - 0.6899' },
+            usdchf: { name: 'USD/CHF', fullName: 'US Dollar Swiss Franc', symbol: 'USDCHF', section: 'Forex', region: 'US / Switzerland', currency: 'FOREX4', price: 0.8934, change: -0.34, high: 0.9012, low: 0.8856, volumeLabel: '$41B', signal: 'Hold', sentiment: 'Mixed', range52w: '0.8332 - 0.9225' },
+            usdcad: { name: 'USD/CAD', fullName: 'US Dollar Canadian Dollar', symbol: 'USDCAD', section: 'Forex', region: 'US / Canada', currency: 'FOREX4', price: 1.3567, change: 0.67, high: 1.3645, low: 1.3456, volumeLabel: '$63B', signal: 'Buy', sentiment: 'Dollar bid', range52w: '1.3092 - 1.3899' }
+        };
+
+        const rangeConfig = {
+            '1D': { points: 28, label: '1 Day' },
+            '1W': { points: 34, label: '1 Week' },
+            '1M': { points: 42, label: '1 Month' },
+            '6M': { points: 52, label: '6 Months' },
+            '1Y': { points: 64, label: '1 Year' },
+            '5Y': { points: 72, label: '5 Years' }
+        };
+
+        const main = document.getElementById('marketDetailMain');
+        const sidebar = document.getElementById('marketDetailSidebar');
+        const params = new URLSearchParams(window.location.search);
+        let activeAssetKey = quoteCatalog[params.get('id')] ? params.get('id') : 'sp500';
+        let activeRange = '1M';
+
+        function hashString(value) {
+            let hash = 1779033703;
+            for (let index = 0; index < value.length; index += 1) {
+                hash = Math.imul(hash ^ value.charCodeAt(index), 3432918353);
+                hash = (hash << 13) | (hash >>> 19);
+            }
+            return hash >>> 0;
+        }
+
+        function mulberry32(seed) {
+            return function () {
+                let t = seed += 0x6D2B79F5;
+                t = Math.imul(t ^ (t >>> 15), t | 1);
+                t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+                return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+            };
+        }
+
+        function decimalsFor(asset) {
+            if (asset.currency === 'FOREX4') return 4;
+            if (asset.currency === 'FOREX2') return 2;
+            if (asset.section === 'Crypto' && asset.price < 10) return 2;
+            return 2;
+        }
+
+        function formatPrice(asset, value) {
+            const formatted = Number(value).toLocaleString('en-US', {
+                minimumFractionDigits: decimalsFor(asset),
+                maximumFractionDigits: decimalsFor(asset)
+            });
+            if (asset.section === 'Forex') return formatted;
+            return `${asset.currency} ${formatted}`;
+        }
+
+        function formatPercent(value) {
+            return `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`;
+        }
+
+        function generateSeries(assetKey, range) {
+            const asset = quoteCatalog[assetKey];
+            const random = mulberry32(hashString(`${assetKey}-${range}-detail`));
+            const points = rangeConfig[range].points;
+            const sectionFactor = asset.section === 'Crypto' ? 0.035 : asset.section === 'Forex' ? 0.004 : 0.011;
+            const rangeFactor = { '1D': 0.65, '1W': 1, '1M': 1.25, '6M': 1.75, '1Y': 2.2, '5Y': 3.4 }[range];
+            const volatility = sectionFactor * rangeFactor;
+            const trend = asset.change / 100 / points;
+            const records = [];
+            let close = asset.price * (1 - asset.change / 100 * 0.8);
+
+            for (let index = 0; index < points; index += 1) {
+                const open = close;
+                const drift = (random() - 0.48) * volatility * asset.price + trend * asset.price * 5.8;
+                close = Math.max(asset.price * 0.35, open + drift);
+                const wick = Math.max(asset.price * volatility * 0.65, Math.abs(close - open) * (0.5 + random()));
+                const high = Math.max(open, close) + wick * (0.35 + random());
+                const low = Math.max(asset.price * 0.25, Math.min(open, close) - wick * (0.35 + random()));
+                const volume = (asset.section === 'Crypto' ? 9800000 : asset.section === 'Indices' ? 6200000 : 2800000) * (0.45 + random() * 1.7);
+                records.push({ open, high, low, close, volume });
+            }
+
+            const scale = asset.price / records[records.length - 1].close;
+            records.forEach((entry) => {
+                entry.open *= scale;
+                entry.high *= scale;
+                entry.low *= scale;
+                entry.close *= scale;
+            });
+            records[records.length - 1].close = asset.price;
+            records[records.length - 1].high = Math.max(records[records.length - 1].high, asset.price);
+            records[records.length - 1].low = Math.min(records[records.length - 1].low, asset.price);
+            return records;
+        }
+
+        function summarize(series) {
+            const first = series[0].open;
+            const last = series[series.length - 1].close;
+            return {
+                rangeMove: ((last - first) / first) * 100,
+                high: Math.max(...series.map((entry) => entry.high)),
+                low: Math.min(...series.map((entry) => entry.low)),
+                avgVolume: series.reduce((sum, entry) => sum + entry.volume, 0) / series.length
+            };
+        }
+
+        function renderChart(asset, series) {
+            const width = 980;
+            const height = 470;
+            const chartTop = 24;
+            const chartHeight = 300;
+            const volumeTop = 350;
+            const volumeHeight = 82;
+            const paddingLeft = 52;
+            const paddingRight = 28;
+            const maxPrice = Math.max(...series.map((entry) => entry.high));
+            const minPrice = Math.min(...series.map((entry) => entry.low));
+            const pricePadding = (maxPrice - minPrice) * 0.12 || asset.price * 0.08;
+            const topValue = maxPrice + pricePadding;
+            const bottomValue = minPrice - pricePadding;
+            const innerWidth = width - paddingLeft - paddingRight;
+            const step = innerWidth / series.length;
+            const candleWidth = Math.max(5, step * 0.54);
+            const maxVolume = Math.max(...series.map((entry) => entry.volume));
+            const priceToY = (value) => chartTop + chartHeight - ((value - bottomValue) / (topValue - bottomValue)) * chartHeight;
+            const volumeToHeight = (value) => (value / maxVolume) * volumeHeight;
+
+            const gridLines = Array.from({ length: 6 }, (_, index) => {
+                const y = chartTop + (chartHeight / 5) * index;
+                const value = topValue - ((topValue - bottomValue) / 5) * index;
+                return `
+                    <line x1="${paddingLeft}" y1="${y}" x2="${width - paddingRight}" y2="${y}" class="detail-grid-line"></line>
+                    <text x="${width - 8}" y="${y + 4}" class="detail-axis-label" text-anchor="end">${formatPrice(asset, value)}</text>
+                `;
+            }).join('');
+
+            const candles = series.map((entry, index) => {
+                const x = paddingLeft + step * index + step / 2;
+                const openY = priceToY(entry.open);
+                const closeY = priceToY(entry.close);
+                const highY = priceToY(entry.high);
+                const lowY = priceToY(entry.low);
+                const bodyY = Math.min(openY, closeY);
+                const bodyHeight = Math.max(2, Math.abs(closeY - openY));
+                const rising = entry.close >= entry.open;
+                const volumeHeightValue = volumeToHeight(entry.volume);
+                const volumeY = volumeTop + volumeHeight - volumeHeightValue;
+                return `
+                    <line x1="${x}" y1="${highY}" x2="${x}" y2="${lowY}" class="detail-wick ${rising ? 'up' : 'down'}"></line>
+                    <rect x="${x - candleWidth / 2}" y="${bodyY}" width="${candleWidth}" height="${bodyHeight}" rx="2" class="detail-candle ${rising ? 'up' : 'down'}"></rect>
+                    <rect x="${x - candleWidth / 2}" y="${volumeY}" width="${candleWidth}" height="${volumeHeightValue}" rx="1.5" class="detail-volume ${rising ? 'up' : 'down'}"></rect>
+                `;
+            }).join('');
+
+            const lastPriceY = priceToY(series[series.length - 1].close);
+            return `
+                <svg viewBox="0 0 ${width} ${height}" class="detail-chart-svg" role="img" aria-label="${asset.name} chart">
+                    <rect x="0" y="0" width="${width}" height="${height}" class="detail-chart-bg"></rect>
+                    ${gridLines}
+                    <line x1="${paddingLeft}" y1="${lastPriceY}" x2="${width - paddingRight}" y2="${lastPriceY}" class="detail-last-line"></line>
+                    ${candles}
+                    <text x="${width - 10}" y="${lastPriceY - 9}" class="detail-last-price" text-anchor="end">${formatPrice(asset, asset.price)}</text>
+                    <line x1="${paddingLeft}" y1="${volumeTop + volumeHeight}" x2="${width - paddingRight}" y2="${volumeTop + volumeHeight}" class="detail-volume-base"></line>
+                </svg>
+            `;
+        }
+
+        function renderMain() {
+            const asset = quoteCatalog[activeAssetKey];
+            const series = generateSeries(activeAssetKey, activeRange);
+            const summary = summarize(series);
+            const isUp = asset.change >= 0;
+            const rangeButtons = Object.keys(rangeConfig).map((range) => `
+                <button type="button" class="detail-range-btn ${range === activeRange ? 'is-active' : ''}" data-range="${range}">${range}</button>
+            `).join('');
+
+            document.title = `${asset.name} - SmartFinance`;
+            main.innerHTML = `
+                <div class="detail-headline">
+                    <a class="detail-back-link" href="/Portfolio.html#stock-indices">Back to Portfolio</a>
+                    <div class="detail-title-row">
+                        <div>
+                            <span class="detail-market-chip">${asset.section} / ${asset.region}</span>
+                            <h1>${asset.fullName}</h1>
+                            <p>${asset.symbol} market overview, technical chart, session ranges, and signal snapshot.</p>
+                        </div>
+                        <div class="detail-actions">
+                            <button type="button" class="detail-icon-btn" data-watchlist-add="${activeAssetKey}" title="Add to watchlist">+</button>
+                            <button type="button" class="detail-primary-btn" data-watchlist-add="${activeAssetKey}">Add to Watchlist</button>
+                        </div>
+                    </div>
+                    <div class="detail-price-row">
+                        <strong>${formatPrice(asset, asset.price)}</strong>
+                        <span class="${isUp ? 'up' : 'down'}">${formatPercent(asset.change)}</span>
+                        <small>Market closed</small>
+                    </div>
+                    <div class="detail-session-strip">
+                        <div><span>Day range</span><strong>${formatPrice(asset, asset.low)} - ${formatPrice(asset, asset.high)}</strong></div>
+                        <div><span>52 week range</span><strong>${asset.range52w}</strong></div>
+                        <div><span>Volume</span><strong>${asset.volumeLabel}</strong></div>
+                    </div>
+                </div>
+
+                <nav class="detail-tabs" aria-label="Market sections">
+                    <button type="button" class="is-active">General</button>
+                    <button type="button">Chart</button>
+                    <button type="button">News & Analysis</button>
+                    <button type="button">Technical</button>
+                    <button type="button">Forum</button>
+                </nav>
+
+                <section class="detail-chart-card">
+                    <div class="detail-chart-toolbar">
+                        <div class="detail-range-group">${rangeButtons}</div>
+                        <a href="/Portfolio.html" class="detail-technical-link">Technical Chart</a>
+                    </div>
+                    ${renderChart(asset, series)}
+                </section>
+
+                <section class="detail-performance-grid">
+                    <article><span>${rangeConfig[activeRange].label}</span><strong class="${summary.rangeMove >= 0 ? 'up' : 'down'}">${formatPercent(summary.rangeMove)}</strong></article>
+                    <article><span>High</span><strong>${formatPrice(asset, summary.high)}</strong></article>
+                    <article><span>Low</span><strong>${formatPrice(asset, summary.low)}</strong></article>
+                    <article><span>Average volume</span><strong>${summary.avgVolume >= 1000000 ? `${(summary.avgVolume / 1000000).toFixed(1)}M` : summary.avgVolume.toFixed(0)}</strong></article>
+                    <article><span>Signal</span><strong>${asset.signal}</strong></article>
+                    <article><span>Sentiment</span><strong>${asset.sentiment}</strong></article>
+                </section>
+            `;
+
+            main.querySelectorAll('.detail-range-btn').forEach((button) => {
+                button.addEventListener('click', () => {
+                    activeRange = button.dataset.range;
+                    renderMain();
+                });
+            });
+        }
+
+        function renderSidebar() {
+            const related = Object.entries(quoteCatalog)
+                .filter(([, asset]) => asset.section === quoteCatalog[activeAssetKey].section)
+                .map(([key, asset]) => `
+                    <button type="button" class="detail-sidebar-row ${key === activeAssetKey ? 'is-active' : ''}" data-asset="${key}">
+                        <span>${asset.name}</span>
+                        <strong>${formatPrice(asset, asset.price)}</strong>
+                        <em class="${asset.change >= 0 ? 'up' : 'down'}">${formatPercent(asset.change)}</em>
+                    </button>
+                `).join('');
+
+            sidebar.innerHTML = `
+                <div class="detail-mini-chart-card">
+                    <span>Market Pulse</span>
+                    <strong>${quoteCatalog[activeAssetKey].section}</strong>
+                    <p>${quoteCatalog[activeAssetKey].sentiment} conditions with ${quoteCatalog[activeAssetKey].signal.toLowerCase()} signal.</p>
+                </div>
+                <div class="detail-watchlist-card">
+                    <h2>Related Markets</h2>
+                    ${related}
+                </div>
+            `;
+
+            sidebar.querySelectorAll('[data-asset]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    activeAssetKey = button.dataset.asset;
+                    activeRange = '1M';
+                    window.history.replaceState(null, '', `/market-detail.html?id=${activeAssetKey}`);
+                    renderMain();
+                    renderSidebar();
+                });
+            });
+        }
+
+        renderMain();
+        renderSidebar();
+    </script>
+    <script src="/js/site-menu.js"></script>
+    <script src="/js/scroll-top.js"></script>
+</body>
+</html>
