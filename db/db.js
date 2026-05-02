@@ -19,10 +19,48 @@ function removeSslMode(connectionString) {
     .replace(/[?&]$/, '');
 }
 
+function getConnectionInfo(value) {
+  if (!value) {
+    return {
+      mode: 'DB_* variables',
+      user: process.env.DB_USER || 'postgres',
+      host: process.env.DB_HOST || 'localhost',
+      port: String(process.env.DB_PORT || 5432),
+      database: process.env.DB_NAME || 'test_db',
+      usesPooler: false,
+      hasPassword: Boolean(process.env.DB_PASSWORD)
+    };
+  }
+
+  try {
+    const parsedUrl = new URL(value);
+    const user = decodeURIComponent(parsedUrl.username || '');
+    const host = parsedUrl.hostname;
+
+    return {
+      mode: 'DATABASE_URL',
+      user,
+      host,
+      port: parsedUrl.port || null,
+      database: parsedUrl.pathname.replace(/^\//, '') || null,
+      usesPooler: host.includes('pooler.supabase.com'),
+      hasPassword: Boolean(parsedUrl.password)
+    };
+  } catch (error) {
+    return {
+      mode: 'DATABASE_URL',
+      parseError: error.message,
+      usesPooler: /pooler\.supabase\.com/i.test(value),
+      hasPassword: /:[^:@/]+@/.test(value)
+    };
+  }
+}
+
 const databaseUrl = cleanConnectionString(
   process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.DB
 );
 const connectionString = removeSslMode(databaseUrl);
+const connectionInfo = getConnectionInfo(connectionString);
 const hasDatabaseUrl = Boolean(databaseUrl);
 const isProduction = process.env.NODE_ENV === 'production';
 const requiresSsl = hasDatabaseUrl && /sslmode=require|supabase\.co|pooler\.supabase\.com/i.test(databaseUrl);
@@ -56,6 +94,8 @@ console.log(`   Port: ${process.env.DB_PORT || (hasDatabaseUrl ? 'from DATABASE_
 console.log(`   Database: ${process.env.DB_NAME || (hasDatabaseUrl ? 'from DATABASE_URL' : 'test_db')}`);
 
 pool.hasDatabaseUrl = hasDatabaseUrl;
+pool.connectionInfo = connectionInfo;
 module.exports = pool;
 module.exports.pool = pool;
 module.exports.hasDatabaseUrl = hasDatabaseUrl;
+module.exports.connectionInfo = connectionInfo;

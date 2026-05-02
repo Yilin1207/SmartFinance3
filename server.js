@@ -316,7 +316,8 @@ app.get('/api/health', async (req, res) => {
     return res.status(200).json({
       success: true,
       message: 'Database connection is ready',
-      hasDatabaseUrl: Boolean(pool.hasDatabaseUrl)
+      hasDatabaseUrl: Boolean(pool.hasDatabaseUrl),
+      database: pool.connectionInfo
     });
   } catch (error) {
     console.error('Health check failed:', error.message);
@@ -325,6 +326,7 @@ app.get('/api/health', async (req, res) => {
       success: false,
       message: 'Database is not configured or unavailable',
       hasDatabaseUrl: Boolean(pool.hasDatabaseUrl),
+      database: pool.connectionInfo,
       errorCode: error.code || null,
       errorName: error.name || null,
       errorMessage: error.message || null
