@@ -17,12 +17,16 @@ const databaseUrl = cleanConnectionString(
 );
 const hasDatabaseUrl = Boolean(databaseUrl);
 const isProduction = process.env.NODE_ENV === 'production';
+const requiresSsl = hasDatabaseUrl && /sslmode=require|supabase\.co|pooler\.supabase\.com/i.test(databaseUrl);
 
 const pool = new Pool(
   hasDatabaseUrl
     ? {
         connectionString: databaseUrl,
-        ssl: isProduction ? { rejectUnauthorized: false } : undefined
+        ssl: isProduction || requiresSsl ? { rejectUnauthorized: false } : undefined,
+        max: Number(process.env.DB_POOL_MAX || 5),
+        idleTimeoutMillis: 10000,
+        connectionTimeoutMillis: 10000
       }
     : {
         user: process.env.DB_USER || 'postgres',
@@ -43,5 +47,7 @@ console.log(`   Host: ${process.env.DB_HOST || (hasDatabaseUrl ? 'from DATABASE_
 console.log(`   Port: ${process.env.DB_PORT || (hasDatabaseUrl ? 'from DATABASE_URL' : 5432)}`);
 console.log(`   Database: ${process.env.DB_NAME || (hasDatabaseUrl ? 'from DATABASE_URL' : 'test_db')}`);
 
+pool.hasDatabaseUrl = hasDatabaseUrl;
 module.exports = pool;
+module.exports.pool = pool;
 module.exports.hasDatabaseUrl = hasDatabaseUrl;
