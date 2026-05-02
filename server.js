@@ -109,7 +109,7 @@ async function ensureTables() {
 
   await pool.query(`
     UPDATE users
-    SET created_at = COALESCE(created_at, date, CURRENT_TIMESTAMP)
+    SET created_at = COALESCE(created_at, CURRENT_TIMESTAMP)
     WHERE created_at IS NULL
   `);
 

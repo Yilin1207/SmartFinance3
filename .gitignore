@@ -27,14 +27,3 @@ logs/
 # Temporary files
 tmp/
 temp/
-
-# Legacy root-level copies; the app serves pages from public/
-/about.html
-/Contacts.html
-/index.html
-/News.html
-/Portfolio.html
-/css/
-/index.js
-/routes/
-/API_EXAMPLES.js
