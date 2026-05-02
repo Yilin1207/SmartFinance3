@@ -1,4 +1,4 @@
-﻿# SmartFinance
+# SmartFinance
 
 SmartFinance is a Node.js and Express website with authentication, PostgreSQL storage, contact requests, newsletter subscriptions, and a portfolio workspace.
 
@@ -56,6 +56,18 @@ For Vercel, use a hosted PostgreSQL database such as Supabase, Neon or Vercel Po
 For Supabase, use the pooler connection string from Project Settings > Database > Connection string. It should look similar to `postgresql://postgres.project-ref:password@aws-0-region.pooler.supabase.com:6543/postgres?sslmode=require`.
 
 Without `DATABASE_URL`, Vercel can still load static pages, but auth, portfolio, contacts and newsletter API requests will return a database unavailable response.
+
+### Supabase + Vercel checklist
+
+1. Create a Supabase project at `https://supabase.com`.
+2. Open the project dashboard and go to `Connect` or `Project Settings > Database`.
+3. Copy the pooled PostgreSQL connection string. For Vercel/serverless, prefer the transaction pooler URL on port `6543`.
+4. Replace `[YOUR-PASSWORD]` in that URL with the database password you created for the Supabase project.
+5. In Vercel, open your project, then `Settings > Environment Variables`.
+6. Add `DATABASE_URL` with the Supabase connection string. Select `Production` and `Preview` if you use both.
+7. Optional: add `DB_POOL_MAX` with value `5`.
+8. Redeploy the Vercel project. Environment variable changes only affect new deployments.
+9. Open `/register.html` and create an account. The app will create its PostgreSQL tables automatically on the first API request.
 
 ## Useful Scripts
 
