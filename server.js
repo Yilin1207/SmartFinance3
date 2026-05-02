@@ -3,7 +3,8 @@ const path = require('path');
 const crypto = require('crypto');
 require('dotenv').config();
 
-const pool = require('./db/db');
+const database = require('./db/db.js');
+const pool = database.pool || database;
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -108,7 +109,7 @@ async function ensureTables() {
 
   await pool.query(`
     UPDATE users
-    SET created_at = COALESCE(created_at, CURRENT_TIMESTAMP)
+    SET created_at = COALESCE(created_at, date, CURRENT_TIMESTAMP)
     WHERE created_at IS NULL
   `);
 
@@ -239,13 +240,26 @@ async function ensureTables() {
 
 async function prepareDatabase() {
   if (!tablesReadyPromise) {
-    tablesReadyPromise = ensureTables().catch((error) => {
-      tablesReadyPromise = null;
-      throw error;
-    });
+    tablesReadyPromise = ensureTables();
   }
 
   return tablesReadyPromise;
+}
+
+async function withTransaction(callback) {
+  const client = await pool.connect();
+
+  try {
+    await client.query('BEGIN');
+    const result = await callback(client);
+    await client.query('COMMIT');
+    return result;
+  } catch (error) {
+    await client.query('ROLLBACK').catch(() => {});
+    throw error;
+  } finally {
+    client.release();
+  }
 }
 
 async function attachCurrentUser(req, res, next) {
@@ -294,15 +308,6 @@ function requireApiAuth(req, res, next) {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(attachCurrentUser);
-
-app.get('/api/db-config', (req, res) => {
-  return res.status(200).json({
-    success: true,
-    hasDatabaseUrl: Boolean(pool.hasDatabaseUrl),
-    nodeEnv: process.env.NODE_ENV || null,
-    vercel: Boolean(process.env.VERCEL)
-  });
-});
 
 app.get('/api/health', async (req, res) => {
   try {
@@ -633,21 +638,19 @@ app.post('/api/brokerage-account', requireApiAuth, async (req, res) => {
       });
     }
 
-    await pool.query('BEGIN');
+    const result = await withTransaction(async (client) => {
+      await client.query(
+        'UPDATE brokerage_accounts SET is_active = FALSE WHERE user_id = $1',
+        [req.currentUser.id]
+      );
 
-    await pool.query(
-      'UPDATE brokerage_accounts SET is_active = FALSE WHERE user_id = $1',
-      [req.currentUser.id]
-    );
-
-    const result = await pool.query(
-      `INSERT INTO brokerage_accounts (user_id, account_name, base_currency, cash_balance, is_active)
-       VALUES ($1, $2, $3, $4, TRUE)
-       RETURNING id, account_name, base_currency, cash_balance, is_active, created_at`,
-      [req.currentUser.id, accountName, baseCurrency, initialDeposit]
-    );
-
-    await pool.query('COMMIT');
+      return client.query(
+        `INSERT INTO brokerage_accounts (user_id, account_name, base_currency, cash_balance, is_active)
+         VALUES ($1, $2, $3, $4, TRUE)
+         RETURNING id, account_name, base_currency, cash_balance, is_active, created_at`,
+        [req.currentUser.id, accountName, baseCurrency, initialDeposit]
+      );
+    });
 
     return res.status(201).json({
       success: true,
@@ -655,7 +658,6 @@ app.post('/api/brokerage-account', requireApiAuth, async (req, res) => {
       data: result.rows[0]
     });
   } catch (error) {
-    await pool.query('ROLLBACK').catch(() => {});
     console.error('Failed to create brokerage account:', error.message);
     return res.status(500).json({
       success: false,
@@ -688,17 +690,16 @@ app.post('/api/brokerage-account/select', requireApiAuth, async (req, res) => {
       });
     }
 
-    await pool.query('BEGIN');
-    await pool.query('UPDATE brokerage_accounts SET is_active = FALSE WHERE user_id = $1', [req.currentUser.id]);
-    await pool.query('UPDATE brokerage_accounts SET is_active = TRUE WHERE id = $1', [accountId]);
-    await pool.query('COMMIT');
+    await withTransaction(async (client) => {
+      await client.query('UPDATE brokerage_accounts SET is_active = FALSE WHERE user_id = $1', [req.currentUser.id]);
+      await client.query('UPDATE brokerage_accounts SET is_active = TRUE WHERE id = $1', [accountId]);
+    });
 
     return res.status(200).json({
       success: true,
       message: 'Active brokerage account updated'
     });
   } catch (error) {
-    await pool.query('ROLLBACK').catch(() => {});
     console.error('Failed to switch brokerage account:', error.message);
     return res.status(500).json({
       success: false,
@@ -770,22 +771,22 @@ app.post('/api/brokerage-account/positions', requireApiAuth, async (req, res) =>
       });
     }
 
-    await pool.query('BEGIN');
+    const insertResult = await withTransaction(async (client) => {
+      const result = await client.query(
+        `INSERT INTO brokerage_positions
+          (account_id, asset_key, asset_name, asset_type, symbol, quantity, entry_price, current_price)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+         RETURNING id, asset_key, asset_name, asset_type, symbol, quantity, entry_price, current_price, created_at`,
+        [account.id, assetKey, assetName, assetType, symbol, quantity, entryPrice, currentPrice]
+      );
 
-    const insertResult = await pool.query(
-      `INSERT INTO brokerage_positions
-        (account_id, asset_key, asset_name, asset_type, symbol, quantity, entry_price, current_price)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-       RETURNING id, asset_key, asset_name, asset_type, symbol, quantity, entry_price, current_price, created_at`,
-      [account.id, assetKey, assetName, assetType, symbol, quantity, entryPrice, currentPrice]
-    );
+      await client.query(
+        'UPDATE brokerage_accounts SET cash_balance = cash_balance - $1 WHERE id = $2',
+        [requiredCapital, account.id]
+      );
 
-    await pool.query(
-      'UPDATE brokerage_accounts SET cash_balance = cash_balance - $1 WHERE id = $2',
-      [requiredCapital, account.id]
-    );
-
-    await pool.query('COMMIT');
+      return result;
+    });
 
     return res.status(201).json({
       success: true,
@@ -793,7 +794,6 @@ app.post('/api/brokerage-account/positions', requireApiAuth, async (req, res) =>
       data: insertResult.rows[0]
     });
   } catch (error) {
-    await pool.query('ROLLBACK').catch(() => {});
     console.error('Failed to add brokerage position:', error.message);
     return res.status(500).json({
       success: false,
@@ -832,20 +832,19 @@ app.delete('/api/brokerage-account/positions/:positionId', requireApiAuth, async
     const position = positionResult.rows[0];
     const releasedCash = Number(position.quantity) * Number(position.current_price);
 
-    await pool.query('BEGIN');
-    await pool.query('DELETE FROM brokerage_positions WHERE id = $1', [positionId]);
-    await pool.query(
-      'UPDATE brokerage_accounts SET cash_balance = cash_balance + $1 WHERE id = $2',
-      [releasedCash, position.account_id]
-    );
-    await pool.query('COMMIT');
+    await withTransaction(async (client) => {
+      await client.query('DELETE FROM brokerage_positions WHERE id = $1', [positionId]);
+      await client.query(
+        'UPDATE brokerage_accounts SET cash_balance = cash_balance + $1 WHERE id = $2',
+        [releasedCash, position.account_id]
+      );
+    });
 
     return res.status(200).json({
       success: true,
       message: 'Position removed successfully'
     });
   } catch (error) {
-    await pool.query('ROLLBACK').catch(() => {});
     console.error('Failed to remove brokerage position:', error.message);
     return res.status(500).json({
       success: false,
