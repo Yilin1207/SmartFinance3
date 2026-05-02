@@ -12,9 +12,17 @@ function cleanConnectionString(value) {
     .replace(/^["']|["']$/g, '');
 }
 
+function removeSslMode(connectionString) {
+  return connectionString
+    .replace(/[?&]sslmode=[^&]*/i, (match) => (match.startsWith('?') ? '?' : ''))
+    .replace(/\?&/, '?')
+    .replace(/[?&]$/, '');
+}
+
 const databaseUrl = cleanConnectionString(
   process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.DB
 );
+const connectionString = removeSslMode(databaseUrl);
 const hasDatabaseUrl = Boolean(databaseUrl);
 const isProduction = process.env.NODE_ENV === 'production';
 const requiresSsl = hasDatabaseUrl && /sslmode=require|supabase\.co|pooler\.supabase\.com/i.test(databaseUrl);
@@ -22,7 +30,7 @@ const requiresSsl = hasDatabaseUrl && /sslmode=require|supabase\.co|pooler\.supa
 const pool = new Pool(
   hasDatabaseUrl
     ? {
-        connectionString: databaseUrl,
+        connectionString,
         ssl: isProduction || requiresSsl ? { rejectUnauthorized: false } : undefined,
         max: Number(process.env.DB_POOL_MAX || 5),
         idleTimeoutMillis: 10000,
