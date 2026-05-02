@@ -79,3 +79,4 @@ npm run check
 ## GitHub Notes
 
 Do not commit `.env` or `node_modules`. Commit `package-lock.json` together with `package.json` so other developers get the same dependency versions.
+
