@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - SmartFinance</title>
-    <link rel="stylesheet" href="/css/main.css?v=7">
+    <link rel="stylesheet" href="/css/main.css?v=8">
 </head>
 
 <body>
@@ -627,6 +627,9 @@
         const summaryEquity = document.getElementById('summaryEquity');
         const summaryPnl = document.getElementById('summaryPnl');
         const brokerState = { accounts: [], accountData: null };
+        const liveQuoteState = {
+            lastPrices: {}
+        };
 
         function hashString(value) {
             let hash = 1779033703;
@@ -680,6 +683,10 @@
 
         function formatPercent(value) {
             return `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`;
+        }
+
+        function changeClassFor(value) {
+            return value < 0 ? 'down' : 'up';
         }
 
         function formatVolume(value) {
@@ -887,6 +894,140 @@
                     bindRangeButtons(viewer);
                 });
             });
+        }
+
+        function applyLiveQuote(assetKey, quote) {
+            const asset = quoteCatalog[assetKey];
+
+            if (!asset || typeof quote.price !== 'number') {
+                return;
+            }
+
+            const previousPrice = liveQuoteState.lastPrices[assetKey];
+            const direction = previousPrice === undefined || previousPrice === quote.price
+                ? null
+                : quote.price > previousPrice ? 'up' : 'down';
+
+            liveQuoteState.lastPrices[assetKey] = quote.price;
+            asset.price = quote.price;
+            asset.change = typeof quote.change === 'number'
+                ? quote.change
+                : previousPrice
+                    ? ((quote.price - previousPrice) / previousPrice) * 100
+                    : asset.change;
+
+            if (typeof quote.high === 'number') asset.high = quote.high;
+            if (typeof quote.low === 'number') asset.low = quote.low;
+
+            if (asset.section === 'crypto') {
+                if (quote.marketCapLabel) asset.meta1Value = quote.marketCapLabel;
+                if (quote.volumeLabel) asset.meta2Value = quote.volumeLabel;
+            }
+
+            updateQuoteCard(assetKey, direction);
+            updateQuoteViewer(assetKey);
+
+            if (assetKeyField.value === assetKey) {
+                currentPriceField.value = asset.price;
+
+                if (!entryPriceField.value || Number(entryPriceField.value) === previousPrice) {
+                    entryPriceField.value = asset.price;
+                }
+            }
+        }
+
+        function updateQuoteCard(assetKey, direction = null) {
+            const asset = quoteCatalog[assetKey];
+            const card = document.querySelector(`.quote-card[data-asset="${assetKey}"]`);
+
+            if (!asset || !card) return;
+
+            card.dataset.quoteState = direction || 'live';
+            card.classList.remove('quote-tick-up', 'quote-tick-down');
+
+            if (direction) {
+                card.classList.add(`quote-tick-${direction}`);
+                window.setTimeout(() => {
+                    card.classList.remove(`quote-tick-${direction}`);
+                }, 900);
+            }
+
+            const changeElement = card.querySelector('.change');
+
+            if (changeElement) {
+                changeElement.textContent = formatPercent(asset.change);
+                changeElement.className = `change ${changeClassFor(asset.change)}`;
+            }
+
+            if (asset.section === 'indices') {
+                const priceElement = card.querySelector('.index-value .price');
+                const infoRows = card.querySelectorAll('.index-info p');
+                const miniChart = card.querySelector('.mini-chart');
+
+                if (priceElement) priceElement.textContent = formatPrice(asset, asset.price);
+                if (infoRows[0]) infoRows[0].textContent = `High: ${formatPrice(asset, asset.high)}`;
+                if (infoRows[1]) infoRows[1].textContent = `Low: ${formatPrice(asset, asset.low)}`;
+                if (miniChart) {
+                    miniChart.style.background = asset.change >= 0
+                        ? 'linear-gradient(to right, #76a7f6, #4cbd10)'
+                        : 'linear-gradient(to right, #ff6b6b, #ff6b6b)';
+                }
+
+                return;
+            }
+
+            if (asset.section === 'crypto') {
+                const priceElement = card.querySelector('.crypto-price .price');
+                const statValues = card.querySelectorAll('.crypto-stats .stat strong');
+
+                if (priceElement) priceElement.textContent = formatPrice(asset, asset.price);
+                if (statValues[0]) statValues[0].textContent = asset.meta1Value;
+                if (statValues[1]) statValues[1].textContent = asset.meta2Value;
+
+                return;
+            }
+
+            if (asset.section === 'forex') {
+                const rateElement = card.querySelector('.forex-price .rate');
+                const detailValues = card.querySelectorAll('.forex-details .detail-row strong');
+
+                if (rateElement) rateElement.textContent = formatPrice(asset, asset.price);
+                if (detailValues[0]) detailValues[0].textContent = formatPrice(asset, asset.high);
+                if (detailValues[1]) detailValues[1].textContent = formatPrice(asset, asset.low);
+            }
+        }
+
+        function updateQuoteViewer(assetKey) {
+            const viewerIds = Object.keys(sectionDefaults);
+
+            viewerIds.forEach((viewerId) => {
+                const viewer = document.getElementById(viewerId);
+
+                if (!viewer || viewer.dataset.asset !== assetKey) {
+                    return;
+                }
+
+                const selectedRange = viewer.dataset.range || '1M';
+                viewer.innerHTML = createViewerMarkup(assetKey, selectedRange);
+                bindRangeButtons(viewer);
+            });
+        }
+
+        async function updateMarketQuotes() {
+            try {
+                const response = await fetch('/api/market-quotes', { cache: 'no-store' });
+                const data = await response.json();
+
+                if (!response.ok || !data.quotes) {
+                    throw new Error(data.error || 'Market quotes are unavailable');
+                }
+
+                Object.entries(data.quotes).forEach(([assetKey, quote]) => {
+                    applyLiveQuote(assetKey, quote);
+                });
+            } catch (error) {
+                console.error('Failed to update live quotes on Portfolio:', error.message);
+            }
         }
 
         function showBrokerageMessage(text, type = '') {
@@ -1122,6 +1263,8 @@
         });
 
         populateBrokerAssetOptions();
+        updateMarketQuotes();
+        setInterval(updateMarketQuotes, 5000);
         loadBrokerageAccount();
     </script>
     <script src="/js/site-menu.js"></script>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Market Detail - SmartFinance</title>
-    <link rel="stylesheet" href="/css/main.css?v=7">
+    <link rel="stylesheet" href="/css/main.css?v=8">
 </head>
 <body>
     <div class="wrapper market-detail-page">
@@ -63,6 +63,9 @@
         const params = new URLSearchParams(window.location.search);
         let activeAssetKey = quoteCatalog[params.get('id')] ? params.get('id') : 'sp500';
         let activeRange = '1M';
+        const liveQuoteState = {
+            lastPrices: {}
+        };
 
         function hashString(value) {
             let hash = 1779033703;
@@ -100,6 +103,49 @@
 
         function formatPercent(value) {
             return `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`;
+        }
+
+        function changeClassFor(value) {
+            if (value > 0) return 'up';
+            if (value < 0) return 'down';
+            return '';
+        }
+
+        function formatUpdatedAt(date) {
+            return date.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
+
+        function formatQuoteTimestamp(value, fallbackDate) {
+            if (typeof value === 'string' && value.trim()) {
+                const parsedDate = new Date(value);
+
+                if (!Number.isNaN(parsedDate.getTime())) {
+                    return formatUpdatedAt(parsedDate);
+                }
+
+                const [, timeValue] = value.trim().split(/\s+/);
+                return timeValue || value;
+            }
+
+            return formatUpdatedAt(fallbackDate);
+        }
+
+        function formatCompactValue(value) {
+            const numericValue = Number(value);
+
+            if (!Number.isFinite(numericValue)) {
+                return null;
+            }
+
+            if (numericValue >= 1e12) return `${(numericValue / 1e12).toFixed(1)}T`;
+            if (numericValue >= 1e9) return `${(numericValue / 1e9).toFixed(1)}B`;
+            if (numericValue >= 1e6) return `${(numericValue / 1e6).toFixed(1)}M`;
+            if (numericValue >= 1e3) return `${(numericValue / 1e3).toFixed(1)}K`;
+            return numericValue.toFixed(0);
         }
 
         function generateSeries(assetKey, range) {
@@ -213,14 +259,16 @@
             const asset = quoteCatalog[activeAssetKey];
             const series = generateSeries(activeAssetKey, activeRange);
             const summary = summarize(series);
-            const isUp = asset.change >= 0;
+            const changeClass = changeClassFor(asset.change);
+            const statusLabel = asset.marketStatusLabel || 'Market closed';
+            const headlineState = changeClass || 'live';
             const rangeButtons = Object.keys(rangeConfig).map((range) => `
                 <button type="button" class="detail-range-btn ${range === activeRange ? 'is-active' : ''}" data-range="${range}">${range}</button>
             `).join('');
 
             document.title = `${asset.name} - SmartFinance`;
             main.innerHTML = `
-                <div class="detail-headline">
+                <div class="detail-headline" data-quote-state="${headlineState}">
                     <a class="detail-back-link" href="/Portfolio.html#stock-indices">Back to Portfolio</a>
                     <div class="detail-title-row">
                         <div>
@@ -235,8 +283,8 @@
                     </div>
                     <div class="detail-price-row">
                         <strong>${formatPrice(asset, asset.price)}</strong>
-                        <span class="${isUp ? 'up' : 'down'}">${formatPercent(asset.change)}</span>
-                        <small>Market closed</small>
+                        <span class="${changeClass}">${formatPercent(asset.change)}</span>
+                        <small>${statusLabel}</small>
                     </div>
                     <div class="detail-session-strip">
                         <div><span>Day range</span><strong>${formatPrice(asset, asset.low)} - ${formatPrice(asset, asset.high)}</strong></div>
@@ -286,7 +334,7 @@
                     <button type="button" class="detail-sidebar-row ${key === activeAssetKey ? 'is-active' : ''}" data-asset="${key}">
                         <span>${asset.name}</span>
                         <strong>${formatPrice(asset, asset.price)}</strong>
-                        <em class="${asset.change >= 0 ? 'up' : 'down'}">${formatPercent(asset.change)}</em>
+                        <em class="${changeClassFor(asset.change)}">${formatPercent(asset.change)}</em>
                     </button>
                 `).join('');
 
@@ -313,8 +361,69 @@
             });
         }
 
+        function applyLiveQuote(assetKey, quote) {
+            const asset = quoteCatalog[assetKey];
+
+            if (!asset || typeof quote.price !== 'number') {
+                return;
+            }
+
+            const previousPrice = liveQuoteState.lastPrices[assetKey];
+            const direction = previousPrice === undefined || previousPrice === quote.price
+                ? null
+                : quote.price > previousPrice ? 'up' : 'down';
+            const updatedAt = new Date();
+
+            liveQuoteState.lastPrices[assetKey] = quote.price;
+            asset.price = quote.price;
+            asset.change = typeof quote.change === 'number'
+                ? quote.change
+                : previousPrice
+                    ? ((quote.price - previousPrice) / previousPrice) * 100
+                    : asset.change;
+
+            if (typeof quote.high === 'number') asset.high = quote.high;
+            if (typeof quote.low === 'number') asset.low = quote.low;
+            if (quote.volumeLabel) asset.volumeLabel = quote.volumeLabel;
+            if (!quote.volumeLabel && typeof quote.volume === 'number') {
+                asset.volumeLabel = formatCompactValue(quote.volume) || asset.volumeLabel;
+            }
+
+            asset.signal = direction === 'up'
+                ? 'Rising'
+                : direction === 'down' ? 'Falling' : 'Live quote';
+            asset.sentiment = direction === 'up'
+                ? 'Buyers active'
+                : direction === 'down' ? 'Sellers active' : 'Live market';
+            asset.marketStatusLabel = `Updated ${formatQuoteTimestamp(quote.updatedAt, updatedAt)}`;
+        }
+
+        async function updateMarketQuotes() {
+            try {
+                const response = await fetch('/api/market-quotes', { cache: 'no-store' });
+                const data = await response.json();
+
+                if (!response.ok || !data.quotes) {
+                    throw new Error(data.error || 'Market quotes are unavailable');
+                }
+
+                Object.entries(data.quotes).forEach(([assetKey, quote]) => {
+                    applyLiveQuote(assetKey, quote);
+                });
+
+                renderMain();
+                renderSidebar();
+            } catch (error) {
+                quoteCatalog[activeAssetKey].marketStatusLabel = 'Quote unavailable';
+                renderMain();
+                renderSidebar();
+            }
+        }
+
         renderMain();
         renderSidebar();
+        updateMarketQuotes();
+        setInterval(updateMarketQuotes, 5000);
     </script>
     <script src="/js/site-menu.js"></script>
     <script src="/js/scroll-top.js"></script>

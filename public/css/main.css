@@ -164,6 +164,21 @@ header nav ul li.btn a:hover, .email .block button:hover {
     font-size: 18px;
 }
 
+#price {
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.price-up {
+    color: rgb(112, 226, 138) !important;
+}
+
+.price-down,
+.price-error {
+    color: rgb(245, 100, 100) !important;
+}
+
 .market-strip-item em {
     color: rgb(112, 226, 138);
     font-style: normal;
@@ -2514,44 +2529,102 @@ footer > p {
 .indices-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
+    gap: 22px;
 }
 
-.index-card {
-    background: rgba(0, 0, 0, 0.3);
+.index-card,
+.forex-card,
+.crypto-card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: 255px;
+    background:
+        linear-gradient(145deg, rgba(7, 22, 35, 0.96), rgba(2, 11, 18, 0.98)),
+        rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(118, 167, 246, 0.2);
-    padding: 30px;
-    border-radius: 15px;
-    transition: all 500ms ease;
+    border: 1px solid rgba(118, 167, 246, 0.18);
+    padding: 26px 26px 56px;
+    border-radius: 14px;
+    transition: transform 260ms ease, border-color 260ms ease, box-shadow 260ms ease, background 260ms ease;
+}
+
+.index-card::before,
+.forex-card::before,
+.crypto-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+        radial-gradient(circle at 20% 0%, rgba(118, 167, 246, 0.16), transparent 34%),
+        linear-gradient(90deg, rgba(118, 167, 246, 0.18), rgba(76, 189, 16, 0.1), rgba(255, 107, 107, 0.08));
+    opacity: 0.35;
+    transition: opacity 260ms ease;
+}
+
+.index-card::after,
+.forex-card::after,
+.crypto-card::after {
+    content: "LIVE";
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+    display: inline-flex;
+    align-items: center;
+    height: 24px;
+    padding: 0 9px;
+    border: 1px solid rgba(118, 167, 246, 0.28);
+    border-radius: 999px;
+    background: rgba(4, 17, 28, 0.84);
+    color: rgb(170, 211, 255);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.8px;
+}
+
+.quote-card[data-quote-state="up"]::after {
+    border-color: rgba(76, 189, 16, 0.42);
+    color: rgb(128, 235, 153);
+}
+
+.quote-card[data-quote-state="down"]::after {
+    border-color: rgba(255, 107, 107, 0.46);
+    color: rgb(255, 147, 147);
 }
 
 .index-card:hover {
-    border-color: rgba(118, 167, 246, 0.6);
-    background: rgba(118, 167, 246, 0.05);
-    transform: translateY(-8px);
-    box-shadow: 0 15px 50px rgba(118, 167, 246, 0.2);
+    border-color: rgba(118, 167, 246, 0.48);
+    transform: translateY(-5px);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(118, 167, 246, 0.08);
+}
+
+.index-card:hover::before,
+.forex-card:hover::before,
+.crypto-card:hover::before {
+    opacity: 0.58;
 }
 
 .index-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    gap: 16px;
+    margin-bottom: 22px;
 }
 
 .index-header h3 {
-    font-size: 22px;
-    font-weight: 700;
+    font-size: 23px;
+    font-weight: 850;
     color: rgb(255, 255, 255);
 }
 
 .market-badge {
     display: inline-block;
-    padding: 4px 12px;
-    border-radius: 20px;
+    padding: 5px 10px;
+    border-radius: 999px;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 850;
     text-transform: uppercase;
 }
 
@@ -2577,197 +2650,231 @@ footer > p {
 }
 
 .index-value {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .index-value .price {
     display: block;
-    font-size: 28px;
-    font-weight: 700;
+    font-size: 34px;
+    line-height: 1.05;
+    font-weight: 900;
     color: rgb(255, 255, 255);
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    letter-spacing: 0;
 }
 
-.index-value .change {
-    font-size: 16px;
-    font-weight: 600;
-    display: inline-block;
+.index-value .change,
+.crypto-price .change,
+.forex-price .change,
+.quote-viewer-price span,
+.detail-price-row span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 900;
+    background: rgba(255, 255, 255, 0.045);
 }
 
 .change.up {
     color: rgb(76, 189, 16);
+    background: rgba(76, 189, 16, 0.11);
 }
 
 .change.down {
     color: rgb(255, 107, 107);
+    background: rgba(255, 107, 107, 0.12);
 }
 
 .index-chart {
     margin-bottom: 20px;
 }
 
+.mini-chart {
+    position: relative;
+    height: 7px !important;
+    border-radius: 999px !important;
+    opacity: 1 !important;
+    overflow: hidden;
+}
+
+.mini-chart::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+    transform: translateX(-100%);
+    animation: quoteSweep 3.2s linear infinite;
+}
+
 .index-info {
-    border-top: 1px solid rgba(118, 167, 246, 0.2);
-    padding-top: 15px;
+    display: grid;
+    gap: 8px;
+    border-top: 1px solid rgba(118, 167, 246, 0.14);
+    padding-top: 16px;
 }
 
 .index-info p {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    color: rgb(177, 194, 211);
     font-size: 13px;
-    color: rgb(180, 180, 180);
-    margin-bottom: 5px;
+    font-weight: 750;
+    margin-bottom: 0;
 }
 
 
 .crypto-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-}
-
-.crypto-card {
-    background: linear-gradient(135deg, rgba(118, 167, 246, 0.1), rgba(76, 189, 16, 0.05));
-    border: 1px solid rgba(118, 167, 246, 0.3);
-    padding: 30px;
-    border-radius: 15px;
-    text-align: center;
-    transition: all 500ms ease;
+    gap: 22px;
 }
 
 .crypto-card:hover {
-    transform: translateY(-10px);
-    border-color: rgb(118, 167, 246);
-    background: linear-gradient(135deg, rgba(118, 167, 246, 0.15), rgba(76, 189, 16, 0.1));
-    box-shadow: 0 20px 50px rgba(118, 167, 246, 0.2);
+    transform: translateY(-5px);
+    border-color: rgba(118, 167, 246, 0.48);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(118, 167, 246, 0.08);
 }
 
 .crypto-header {
-    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 22px;
 }
 
 .crypto-header h3 {
     font-size: 24px;
-    font-weight: 700;
+    font-weight: 850;
     color: rgb(255, 255, 255);
-    margin-bottom: 5px;
+    margin-bottom: 0;
 }
 
 .crypto-symbol {
     display: inline-block;
-    background: rgba(118, 167, 246, 0.2);
-    padding: 4px 10px;
-    border-radius: 5px;
-    font-size: 12px;
-    color: rgb(118, 167, 246);
-    font-weight: 600;
+    background: rgba(118, 167, 246, 0.14);
+    border: 1px solid rgba(118, 167, 246, 0.18);
+    padding: 5px 10px;
+    border-radius: 999px;
+    color: rgb(149, 196, 255);
+    font-size: 11px;
+    font-weight: 900;
 }
 
 .crypto-price {
-    margin-bottom: 20px;
+    margin-bottom: 22px;
 }
 
 .crypto-price .price {
     display: block;
-    font-size: 32px;
-    font-weight: 700;
+    font-size: 36px;
+    line-height: 1.05;
+    font-weight: 900;
     color: rgb(255, 255, 255);
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    letter-spacing: 0;
 }
 
 .crypto-stats {
-    display: flex;
-    justify-content: space-around;
-    background: rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    border-radius: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    padding: 0;
+    background: transparent;
 }
 
 .stat {
-    text-align: center;
+    border: 1px solid rgba(118, 167, 246, 0.12);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.035);
+    padding: 13px;
+    text-align: left;
 }
 
 .stat p {
     font-size: 12px;
-    color: rgb(180, 180, 180);
-    margin-bottom: 5px;
+    color: rgb(149, 171, 193);
+    margin-bottom: 7px;
+    font-weight: 800;
 }
 
 .stat strong {
     display: block;
     font-size: 16px;
-    color: rgb(118, 167, 246);
-    font-weight: 700;
+    color: rgb(218, 234, 255);
+    font-weight: 900;
 }
 
 
 .forex-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-}
-
-.forex-card {
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(118, 167, 246, 0.2);
-    padding: 30px;
-    border-radius: 15px;
-    transition: all 500ms ease;
+    gap: 22px;
 }
 
 .forex-card:hover {
-    border-color: rgba(118, 167, 246, 0.6);
-    background: rgba(118, 167, 246, 0.05);
-    transform: translateY(-8px);
+    border-color: rgba(118, 167, 246, 0.48);
+    transform: translateY(-5px);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(118, 167, 246, 0.08);
 }
 
 .forex-header {
-    margin-bottom: 20px;
+    margin-bottom: 22px;
 }
 
 .forex-header h3 {
-    font-size: 22px;
-    font-weight: 700;
+    font-size: 28px;
+    font-weight: 900;
     color: rgb(255, 255, 255);
-    margin-bottom: 5px;
+    margin-bottom: 7px;
 }
 
 .pair-name {
     font-size: 13px;
-    color: rgb(180, 180, 180);
+    color: rgb(166, 184, 202);
+    font-weight: 650;
 }
 
 .forex-price {
-    margin-bottom: 20px;
+    margin-bottom: 22px;
 }
 
 .forex-price .rate {
     display: block;
-    font-size: 28px;
-    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.05;
+    font-weight: 900;
     color: rgb(255, 255, 255);
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    letter-spacing: 0;
 }
 
 .forex-details {
-    border-top: 1px solid rgba(118, 167, 246, 0.2);
-    padding-top: 15px;
+    display: grid;
+    gap: 9px;
+    border-top: 1px solid rgba(118, 167, 246, 0.14);
+    padding-top: 16px;
 }
 
 .detail-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
     font-size: 13px;
 }
 
 .detail-row span {
-    color: rgb(180, 180, 180);
+    color: rgb(149, 171, 193);
+    font-weight: 750;
 }
 
 .detail-row strong {
-    color: rgb(118, 167, 246);
-    font-weight: 600;
+    color: rgb(159, 202, 255);
+    font-weight: 900;
 }
 
 .quote-card {
@@ -2783,18 +2890,26 @@ footer > p {
     transform: translateY(-6px);
 }
 
+.quote-card.quote-tick-up {
+    animation: quoteTickUp 820ms ease;
+}
+
+.quote-card.quote-tick-down {
+    animation: quoteTickDown 820ms ease;
+}
+
 .quote-viewer {
     margin-top: 40px;
 }
 
 .quote-viewer-shell {
     background:
-        radial-gradient(circle at top right, rgba(118, 167, 246, 0.14), transparent 28%),
-        linear-gradient(180deg, rgba(3, 15, 26, 0.98), rgba(7, 21, 35, 0.94));
-    border: 1px solid rgba(118, 167, 246, 0.18);
-    border-radius: 24px;
-    padding: 28px;
-    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+        radial-gradient(circle at 82% 0%, rgba(118, 167, 246, 0.16), transparent 32%),
+        linear-gradient(180deg, rgba(3, 15, 26, 0.98), rgba(5, 18, 29, 0.96));
+    border: 1px solid rgba(118, 167, 246, 0.16);
+    border-radius: 16px;
+    padding: 26px;
+    box-shadow: 0 22px 64px rgba(0, 0, 0, 0.34);
 }
 
 .quote-viewer-top {
@@ -2824,10 +2939,10 @@ footer > p {
     border-radius: 999px;
     text-transform: uppercase;
     font-size: 11px;
-    letter-spacing: 1px;
-    font-weight: 700;
-    color: rgb(118, 167, 246);
-    background: rgba(118, 167, 246, 0.14);
+    font-weight: 900;
+    color: rgb(157, 202, 255);
+    background: rgba(118, 167, 246, 0.12);
+    border: 1px solid rgba(118, 167, 246, 0.18);
 }
 
 .quote-viewer-price {
@@ -2837,10 +2952,11 @@ footer > p {
 
 .quote-viewer-price strong {
     display: block;
-    font-size: 34px;
-    font-weight: 800;
+    font-size: 38px;
+    line-height: 1;
+    font-weight: 900;
     color: rgb(255, 255, 255);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
 .quote-viewer-price span {
@@ -2867,7 +2983,7 @@ footer > p {
     background: rgba(10, 28, 44, 0.88);
     border: 1px solid rgba(118, 167, 246, 0.24);
     color: rgb(188, 207, 226);
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 10px 14px;
     font-size: 13px;
     font-weight: 700;
@@ -2905,9 +3021,13 @@ footer > p {
 }
 
 .quote-chart-panel {
-    background: linear-gradient(180deg, rgba(4, 16, 27, 0.94), rgba(7, 14, 22, 0.98));
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(4, 16, 27, 0.94), rgba(7, 14, 22, 0.98));
+    background-size: 36px 36px, 36px 36px, auto;
     border: 1px solid rgba(118, 167, 246, 0.12);
-    border-radius: 18px;
+    border-radius: 14px;
     padding: 16px;
     overflow: hidden;
 }
@@ -3278,13 +3398,41 @@ body.sf-light-theme footer {
 .detail-mini-chart-card,
 .detail-watchlist-card {
     border: 1px solid rgba(118, 167, 246, 0.16);
-    background: rgba(3, 15, 24, 0.78);
-    box-shadow: 0 24px 90px rgba(0, 0, 0, 0.28);
+    background:
+        radial-gradient(circle at 100% 0%, rgba(118, 167, 246, 0.12), transparent 34%),
+        rgba(3, 15, 24, 0.82);
+    box-shadow: 0 22px 66px rgba(0, 0, 0, 0.28);
 }
 
 .detail-headline {
-    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
     padding: 30px;
+}
+
+.detail-headline::after {
+    content: "LIVE";
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+    padding: 6px 10px;
+    border: 1px solid rgba(118, 167, 246, 0.24);
+    border-radius: 999px;
+    background: rgba(4, 17, 28, 0.86);
+    color: rgb(170, 211, 255);
+    font-size: 10px;
+    font-weight: 900;
+}
+
+.detail-headline[data-quote-state="up"]::after {
+    border-color: rgba(76, 189, 16, 0.45);
+    color: rgb(128, 235, 153);
+}
+
+.detail-headline[data-quote-state="down"]::after {
+    border-color: rgba(255, 107, 107, 0.46);
+    color: rgb(255, 147, 147);
 }
 
 .detail-back-link {
@@ -3310,7 +3458,7 @@ body.sf-light-theme footer {
     color: rgb(125, 183, 255);
     background: rgba(118, 167, 246, 0.13);
     font-size: 12px;
-    font-weight: 800;
+    font-weight: 900;
     text-transform: uppercase;
 }
 
@@ -3374,7 +3522,7 @@ body.sf-light-theme footer {
 
 .detail-price-row strong {
     color: rgb(255, 255, 255);
-    font-size: 48px;
+    font-size: 56px;
     line-height: 1;
     font-weight: 900;
 }
@@ -3385,8 +3533,15 @@ body.sf-light-theme footer {
 }
 
 .detail-price-row small {
-    color: rgb(149, 171, 193);
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    color: rgb(169, 194, 218);
+    background: rgba(255, 255, 255, 0.045);
     font-size: 14px;
+    font-weight: 800;
 }
 
 .detail-session-strip {
@@ -3397,7 +3552,7 @@ body.sf-light-theme footer {
 }
 
 .detail-session-strip div {
-    border-radius: 14px;
+    border-radius: 10px;
     background: rgba(255, 255, 255, 0.035);
     border: 1px solid rgba(118, 167, 246, 0.1);
     padding: 15px;
@@ -3447,7 +3602,7 @@ body.sf-light-theme footer {
 }
 
 .detail-chart-card {
-    border-radius: 22px;
+    border-radius: 16px;
     padding: 18px;
     overflow: hidden;
 }
@@ -3476,8 +3631,12 @@ body.sf-light-theme footer {
     display: block;
     width: 100%;
     height: auto;
-    border-radius: 16px;
-    background: rgb(2, 11, 18);
+    border-radius: 12px;
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        rgb(2, 11, 18);
+    background-size: 42px 42px, 42px 42px, auto;
 }
 
 .detail-chart-bg {
@@ -3546,7 +3705,7 @@ body.sf-light-theme footer {
 }
 
 .detail-performance-grid article {
-    border-radius: 16px;
+    border-radius: 10px;
     padding: 18px;
 }
 
@@ -3558,7 +3717,7 @@ body.sf-light-theme footer {
 
 .detail-mini-chart-card,
 .detail-watchlist-card {
-    border-radius: 22px;
+    border-radius: 16px;
     padding: 22px;
 }
 
@@ -3594,6 +3753,12 @@ body.sf-light-theme footer {
     background: transparent;
     color: inherit;
     cursor: pointer;
+    transition: color 180ms ease, transform 180ms ease, background 180ms ease;
+}
+
+.detail-sidebar-row:hover {
+    transform: translateX(3px);
+    background: rgba(118, 167, 246, 0.045);
 }
 
 .detail-sidebar-row:last-child {
@@ -3622,14 +3787,89 @@ body.sf-light-theme footer {
 }
 
 .quote-card::after {
-    content: "Open chart";
+    content: "OPEN CHART";
+    position: absolute;
+    left: 26px;
+    right: auto;
+    bottom: 18px;
     display: inline-flex;
-    margin-top: 16px;
+    align-items: center;
+    height: auto;
+    min-height: 24px;
+    padding: 0 10px;
+    border: 1px solid rgba(118, 167, 246, 0.22);
+    border-radius: 999px;
+    background: rgba(4, 17, 28, 0.78);
     color: rgb(169, 198, 231);
-    font-size: 12px;
-    font-weight: 800;
+    font-size: 10px;
+    font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 0.7px;
+}
+
+.index-header h3::after,
+.crypto-header h3::after,
+.forex-header h3::after {
+    content: "LIVE";
+    display: inline-flex;
+    align-items: center;
+    min-height: 20px;
+    margin-left: 9px;
+    padding: 0 7px;
+    border: 1px solid rgba(118, 167, 246, 0.24);
+    border-radius: 999px;
+    color: rgb(157, 202, 255);
+    background: rgba(118, 167, 246, 0.1);
+    font-size: 9px;
+    font-weight: 900;
+    vertical-align: middle;
+}
+
+.quote-card[data-quote-state="up"] h3::after {
+    border-color: rgba(76, 189, 16, 0.42);
+    color: rgb(128, 235, 153);
+    background: rgba(76, 189, 16, 0.1);
+}
+
+.quote-card[data-quote-state="down"] h3::after {
+    border-color: rgba(255, 107, 107, 0.46);
+    color: rgb(255, 147, 147);
+    background: rgba(255, 107, 107, 0.1);
+}
+
+.quote-viewer-price span.up,
+.detail-price-row span.up {
+    color: rgb(100, 226, 136);
+    background: rgba(76, 189, 16, 0.11);
+}
+
+.quote-viewer-price span.down,
+.detail-price-row span.down {
+    color: rgb(255, 122, 122);
+    background: rgba(255, 107, 107, 0.12);
+}
+
+@keyframes quoteSweep {
+    to {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes quoteTickUp {
+    0% {
+        box-shadow: 0 0 0 0 rgba(76, 189, 16, 0.36), 0 18px 44px rgba(0, 0, 0, 0.34);
+    }
+    100% {
+        box-shadow: 0 0 0 18px rgba(76, 189, 16, 0), 0 18px 44px rgba(0, 0, 0, 0.34);
+    }
+}
+
+@keyframes quoteTickDown {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.36), 0 18px 44px rgba(0, 0, 0, 0.34);
+    }
+    100% {
+        box-shadow: 0 0 0 18px rgba(255, 107, 107, 0), 0 18px 44px rgba(0, 0, 0, 0.34);
+    }
 }
 
 .sf-floating-menu {

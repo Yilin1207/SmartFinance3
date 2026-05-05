@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartFinance</title>
-    <link rel="stylesheet" href="/css/main.css?v=7">
+    <link rel="stylesheet" href="/css/main.css?v=8">
 </head>
 
 <body class="home-page">
@@ -25,10 +25,10 @@
 
         <section class="container market-strip" aria-label="Market pulse">
             <div class="market-strip-track">
-                <span class="market-strip-item">S&amp;P 500 <strong>5,847.42</strong> <em>+2.34%</em></span>
-                <span class="market-strip-item">BTC/USD <strong>67,234.89</strong> <em>+5.42%</em></span>
-                <span class="market-strip-item">EUR/USD <strong>1.0856</strong> <em>+0.42%</em></span>
-                <span class="market-strip-item">NASDAQ <strong>18,423.95</strong> <em>+1.87%</em></span>
+                <span class="market-strip-item" data-quote-asset="sp500">S&amp;P 500 <strong>5,847.42</strong> <em>+2.34%</em></span>
+                <span class="market-strip-item" data-quote-asset="bitcoin">BTC/USD <strong>67,234.89</strong> <em>+5.42%</em></span>
+                <span class="market-strip-item" data-quote-asset="eurusd">EUR/USD <strong id="price">Loading...</strong> <em>--</em></span>
+                <span class="market-strip-item" data-quote-asset="nasdaq">NASDAQ <strong>18,423.95</strong> <em>+1.87%</em></span>
                 <span class="market-strip-item">Gold <strong>2,348.10</strong> <em>+0.91%</em></span>
                 <span class="market-strip-item">US 10Y <strong>4.11%</strong> <em>-0.08%</em></span>
             </div>
@@ -346,6 +346,7 @@
         const emailField = document.querySelector('#emailField');
         const subscribeButton = document.querySelector('#subscribeButton');
         const newsletterMessage = document.querySelector('#newsletterMessage');
+        const marketStripLastPrices = {};
 
         logoutButton.addEventListener('click', async function () {
             await fetch('/api/logout', { method: 'POST' });
@@ -358,6 +359,66 @@
                 ? 'newsletter-message is-success'
                 : 'newsletter-message is-error';
         }
+
+        function formatStripPrice(assetKey, value) {
+            const decimals = ['eurusd', 'gbpusd', 'audusd', 'usdchf', 'usdcad'].includes(assetKey) ? 4 : 2;
+
+            return Number(value).toLocaleString('en-US', {
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals
+            });
+        }
+
+        function updateStripQuote(assetKey, quote) {
+            const item = document.querySelector(`.market-strip-item[data-quote-asset="${assetKey}"]`);
+
+            if (!item || typeof quote.price !== 'number') {
+                return;
+            }
+
+            const priceElement = item.querySelector('strong');
+            const changeElement = item.querySelector('em');
+            const previousPrice = marketStripLastPrices[assetKey];
+
+            priceElement.innerText = formatStripPrice(assetKey, quote.price);
+
+            if (previousPrice !== undefined) {
+                if (quote.price > previousPrice) {
+                    priceElement.style.color = 'green';
+                } else if (quote.price < previousPrice) {
+                    priceElement.style.color = 'red';
+                }
+            }
+
+            if (changeElement && typeof quote.change === 'number') {
+                changeElement.innerText = `${quote.change >= 0 ? '+' : ''}${quote.change.toFixed(2)}%`;
+                changeElement.style.color = quote.change >= 0 ? 'green' : 'red';
+            }
+
+            marketStripLastPrices[assetKey] = quote.price;
+        }
+
+        async function updateMarketStripPrices() {
+            try {
+                const res = await fetch('/api/market-quotes', { cache: 'no-store' });
+                const data = await res.json();
+
+                if (!res.ok || !data.quotes) {
+                    throw new Error(data.error || 'Market quotes are unavailable');
+                }
+
+                Object.entries(data.quotes).forEach(([assetKey, quote]) => {
+                    updateStripQuote(assetKey, quote);
+                });
+            } catch (error) {
+                const el = document.getElementById('price');
+                el.innerText = 'Error';
+                el.style.color = 'red';
+            }
+        }
+
+        updateMarketStripPrices();
+        setInterval(updateMarketStripPrices, 5000);
 
         newsletterForm.addEventListener('submit', async function (event) {
             event.preventDefault();

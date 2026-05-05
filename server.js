@@ -12,6 +12,34 @@ const IS_VERCEL = Boolean(process.env.VERCEL);
 const SESSION_COOKIE_NAME = 'smartfinance_session';
 const SESSION_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 let tablesReadyPromise = null;
+const QUOTE_CACHE_TTL_MS = 5000;
+let marketQuotesCache = null;
+let marketQuotesCacheTime = 0;
+let marketQuotesCachePromise = null;
+
+const stooqAssets = {
+  sp500: '^spx',
+  nasdaq: '^ndq',
+  dax: '^dax',
+  ftse100: '^ukx',
+  nikkei225: '^nkx',
+  hsi: '^hsi',
+  eurusd: 'eurusd',
+  gbpusd: 'gbpusd',
+  usdjpy: 'usdjpy',
+  audusd: 'audusd',
+  usdchf: 'usdchf',
+  usdcad: 'usdcad'
+};
+
+const cryptoAssets = {
+  bitcoin: 'bitcoin',
+  ethereum: 'ethereum',
+  ripple: 'ripple',
+  litecoin: 'litecoin',
+  cardano: 'cardano',
+  solana: 'solana'
+};
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -78,6 +106,200 @@ function clearSessionCookie(res) {
     'Set-Cookie',
     `${SESSION_COOKIE_NAME}=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax`
   );
+}
+
+function numberOrNull(value) {
+  if (value === null || value === undefined) {
+    return null;
+  }
+
+  const normalizedValue = String(value).trim();
+
+  if (!normalizedValue || normalizedValue === 'N/D') {
+    return null;
+  }
+
+  const numericValue = Number(normalizedValue);
+  return Number.isFinite(numericValue) ? numericValue : null;
+}
+
+function parseStooqQuote(csvText) {
+  const [headerLine, valueLine] = String(csvText || '').trim().split(/\r?\n/);
+
+  if (!headerLine || !valueLine) {
+    return null;
+  }
+
+  const headers = headerLine.split(',');
+  const values = valueLine.split(',');
+  const row = headers.reduce((accumulator, header, index) => {
+    accumulator[header.toLowerCase()] = values[index] || '';
+    return accumulator;
+  }, {});
+  const price = numberOrNull(row.close);
+
+  if (price === null) {
+    return null;
+  }
+
+  return {
+    price,
+    open: numberOrNull(row.open),
+    high: numberOrNull(row.high),
+    low: numberOrNull(row.low),
+    volume: numberOrNull(row.volume),
+    updatedAt: row.date && row.time ? `${row.date} ${row.time}` : null,
+    source: 'stooq'
+  };
+}
+
+function formatCompactCurrency(value) {
+  const numericValue = Number(value);
+
+  if (!Number.isFinite(numericValue)) {
+    return null;
+  }
+
+  if (numericValue >= 1e12) return `$${(numericValue / 1e12).toFixed(2)}T`;
+  if (numericValue >= 1e9) return `$${(numericValue / 1e9).toFixed(2)}B`;
+  if (numericValue >= 1e6) return `$${(numericValue / 1e6).toFixed(2)}M`;
+  if (numericValue >= 1e3) return `$${(numericValue / 1e3).toFixed(2)}K`;
+  return `$${numericValue.toFixed(2)}`;
+}
+
+function withQuoteChange(quote) {
+  if (quote.open && quote.open > 0) {
+    return {
+      ...quote,
+      change: ((quote.price - quote.open) / quote.open) * 100
+    };
+  }
+
+  return {
+    ...quote,
+    change: 0
+  };
+}
+
+async function fetchStooqQuote(assetKey, symbol) {
+  const response = await fetch(`https://stooq.com/q/l/?s=${encodeURIComponent(symbol)}&f=sd2t2ohlcv&h&e=csv`);
+
+  if (!response.ok) {
+    return null;
+  }
+
+  const quote = parseStooqQuote(await response.text());
+
+  if (!quote) {
+    return null;
+  }
+
+  return [assetKey, withQuoteChange(quote)];
+}
+
+async function fetchStooqQuotes() {
+  const results = await Promise.allSettled(
+    Object.entries(stooqAssets).map(([assetKey, symbol]) => fetchStooqQuote(assetKey, symbol))
+  );
+
+  return results.reduce((quotes, result) => {
+    if (result.status === 'fulfilled' && result.value) {
+      const [assetKey, quote] = result.value;
+      quotes[assetKey] = quote;
+    }
+
+    if (result.status === 'rejected') {
+      console.error('Stooq quote failed:', result.reason?.message || result.reason);
+    }
+
+    return quotes;
+  }, {});
+}
+
+async function fetchCryptoQuotes() {
+  const ids = Object.values(cryptoAssets).join(',');
+  const response = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids}&price_change_percentage=24h`);
+
+  if (!response.ok) {
+    throw new Error(`CoinGecko responded with ${response.status}`);
+  }
+
+  const data = await response.json();
+  const idToAssetKey = Object.entries(cryptoAssets).reduce((accumulator, [assetKey, id]) => {
+    accumulator[id] = assetKey;
+    return accumulator;
+  }, {});
+
+  return data.reduce((quotes, item) => {
+    const assetKey = idToAssetKey[item.id];
+    const price = numberOrNull(item.current_price);
+
+    if (!assetKey || price === null) {
+      return quotes;
+    }
+
+    quotes[assetKey] = {
+      price,
+      high: numberOrNull(item.high_24h),
+      low: numberOrNull(item.low_24h),
+      change: numberOrNull(item.price_change_percentage_24h_in_currency) ?? numberOrNull(item.price_change_percentage_24h) ?? 0,
+      volume: numberOrNull(item.total_volume),
+      marketCap: numberOrNull(item.market_cap),
+      marketCapLabel: formatCompactCurrency(item.market_cap),
+      volumeLabel: formatCompactCurrency(item.total_volume),
+      updatedAt: item.last_updated || null,
+      source: 'coingecko'
+    };
+
+    return quotes;
+  }, {});
+}
+
+async function fetchMarketQuotes() {
+  const results = await Promise.allSettled([
+    fetchStooqQuotes(),
+    fetchCryptoQuotes()
+  ]);
+
+  const quotes = results.reduce((accumulator, result) => {
+    if (result.status === 'fulfilled') {
+      return {
+        ...accumulator,
+        ...result.value
+      };
+    }
+
+    console.error('Market quotes source failed:', result.reason?.message || result.reason);
+    return accumulator;
+  }, {});
+
+  if (Object.keys(quotes).length === 0) {
+    throw new Error('No market quotes were loaded');
+  }
+
+  return quotes;
+}
+
+async function getMarketQuotes() {
+  const now = Date.now();
+
+  if (marketQuotesCache && now - marketQuotesCacheTime < QUOTE_CACHE_TTL_MS) {
+    return marketQuotesCache;
+  }
+
+  if (!marketQuotesCachePromise) {
+    marketQuotesCachePromise = fetchMarketQuotes()
+      .then((quotes) => {
+        marketQuotesCache = quotes;
+        marketQuotesCacheTime = Date.now();
+        return quotes;
+      })
+      .finally(() => {
+        marketQuotesCachePromise = null;
+      });
+  }
+
+  return marketQuotesCachePromise;
 }
 
 async function ensureTables() {
@@ -331,6 +553,39 @@ app.get('/api/health', async (req, res) => {
       errorName: error.name || null,
       errorMessage: error.message || null
     });
+  }
+});
+
+app.get('/api/eurusd', async (req, res) => {
+  try {
+    const quotes = await getMarketQuotes();
+
+    if (quotes.eurusd) {
+      return res.json(quotes.eurusd);
+    }
+
+    const exchangeRateResponse = await fetch('https://open.er-api.com/v6/latest/EUR');
+    const data = await exchangeRateResponse.json();
+    const price = data.rates.USD;
+
+    return res.json({ price, source: 'open-er' });
+  } catch (error) {
+    console.error('EUR/USD fetch failed:', error.message);
+    return res.status(500).json({ error: 'failed' });
+  }
+});
+
+app.get('/api/market-quotes', async (req, res) => {
+  try {
+    const quotes = await getMarketQuotes();
+
+    return res.json({
+      quotes,
+      updatedAt: new Date(marketQuotesCacheTime || Date.now()).toISOString()
+    });
+  } catch (error) {
+    console.error('Market quotes fetch failed:', error.message);
+    return res.status(500).json({ error: 'failed' });
   }
 });
 
